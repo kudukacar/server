@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="echoserver.ConnectionTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-04-02T14:46:25" hostname="8ths-MacBook-Pro.local" time="0.041">
+<testsuite name="echoserver.ConnectionTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-04-02T16:51:15" hostname="8ths-MacBook-Pro.local" time="0.042">
   <properties/>
-  <testcase name="establishesConnection()" classname="echoserver.ConnectionTest" time="0.033"/>
-  <testcase name="closesConnection()" classname="echoserver.ConnectionTest" time="0.004"/>
+  <testcase name="establishesConnection()" classname="echoserver.ConnectionTest" time="0.037"/>
+  <testcase name="closesConnection()" classname="echoserver.ConnectionTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
