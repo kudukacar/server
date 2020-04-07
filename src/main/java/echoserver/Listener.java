@@ -10,9 +10,9 @@ public class Listener {
         this.serverSocket = serverSocket;
     }
 
-    public ClientServerConnection open() throws IOException {
+    public SocketConnection open() throws IOException {
         Socket socket = this.serverSocket.accept();
-        return new ClientServerConnection(socket);
+        return new SocketConnection(socket);
     }
 
     public void close() throws IOException {

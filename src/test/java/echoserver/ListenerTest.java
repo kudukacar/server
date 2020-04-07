@@ -22,9 +22,9 @@ class ListenerTest {
     public void itEstablishesConnection() throws IOException {
         TestServerSocket serverSocket = new TestServerSocket();
 
-        ClientServerConnection clientServerConnection = new Listener(serverSocket).open();
+        SocketConnection socketConnection = new Listener(serverSocket).open();
 
-        assertFalse(clientServerConnection.socket.isClosed());
+        assertFalse(socketConnection.socket.isClosed());
     }
 
     @Test

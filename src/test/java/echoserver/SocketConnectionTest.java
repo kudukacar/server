@@ -7,23 +7,23 @@ import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ClientServerConnectionTest {
+class SocketConnectionTest {
     @Test
     void itReadsFromInputStream() throws IOException {
         String input = "Connected";
         Socket socket = new FakeSocket(input);
-        ClientServerConnection clientServerConnection = new ClientServerConnection(socket);
+        SocketConnection socketConnection = new SocketConnection(socket);
 
-        assertEquals(input, clientServerConnection.read());
+        assertEquals(input, socketConnection.read());
     }
 
     @Test
     void itWritesToOutputStream() throws IOException {
         String input = "Connected";
         Socket socket = new FakeSocket(input);
-        ClientServerConnection clientServerConnection = new ClientServerConnection(socket);
+        SocketConnection socketConnection = new SocketConnection(socket);
 
-        clientServerConnection.write(input);
+        socketConnection.write(input);
 
         assertEquals(input + "\n", socket.getOutputStream().toString());
     }
@@ -31,11 +31,11 @@ class ClientServerConnectionTest {
     @Test
     void itClosesConnection() throws IOException {
         Socket socket = new FakeSocket("Connected");
-        ClientServerConnection clientServerConnection = new ClientServerConnection(socket);
+        SocketConnection socketConnection = new SocketConnection(socket);
 
-        clientServerConnection.close();
+        socketConnection.close();
 
-        assertTrue(clientServerConnection.socket.isClosed());
+        assertTrue(socketConnection.socket.isClosed());
     }
 
     private class FakeSocket extends Socket {

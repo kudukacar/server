@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-public class ClientServerConnection implements Connection{
+public class SocketConnection implements Connection{
     public final Socket socket;
 
-    public ClientServerConnection(Socket socket) {
+    public SocketConnection(Socket socket) {
         this.socket = socket;
     }
 
