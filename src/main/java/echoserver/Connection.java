@@ -6,4 +6,6 @@ public interface Connection {
     String read() throws IOException;
 
     void write(String output) throws IOException;
+
+    public void close() throws IOException;
 }

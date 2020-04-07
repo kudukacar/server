@@ -19,7 +19,7 @@ class TestServerSocket extends ServerSocket {
 
 class ListenerTest {
     @Test
-    public void establishesConnection() throws IOException {
+    public void itEstablishesConnection() throws IOException {
         TestServerSocket serverSocket = new TestServerSocket();
 
         ClientServerConnection clientServerConnection = new Listener(serverSocket).open();
@@ -28,7 +28,7 @@ class ListenerTest {
     }
 
     @Test
-    public void closesConnection() throws IOException {
+    public void itClosesConnection() throws IOException {
         TestServerSocket serverSocket = new TestServerSocket();
         Listener listener = new Listener(serverSocket);
 

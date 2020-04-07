@@ -9,7 +9,10 @@ public class Main {
         ServerSocket serverSocket = new ServerSocket(5000);
         Listener listener = new Listener(serverSocket);
         ClientServerConnection clientServerConnection = listener.open();
+
         new EchoServer().echo(clientServerConnection);
+
+        clientServerConnection.close();
         listener.close();
     }
 }

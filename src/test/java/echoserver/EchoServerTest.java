@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EchoServerTest {
     @Test
-    void EchosText() throws IOException {
+    void itEchosText() throws IOException {
         EchoServer echoServer = new EchoServer();
         ArrayList<String> input = new ArrayList<String>(Arrays.asList("This", "Should", "be", "echoed"));
         TestConnection connection = new TestConnection(input);
@@ -41,6 +41,11 @@ class EchoServerTest {
         @Override
         public void write(String output) {
             this.written.add(output);
+        }
+
+        @Override
+        public void close() throws IOException {
+
         }
     }
 }

@@ -22,4 +22,9 @@ public class ClientServerConnection implements Connection{
         String formattedOutput = output + "\n";
         socket.getOutputStream().write(formattedOutput.getBytes());
     }
+
+    @Override
+    public void close() throws IOException {
+        this.socket.close();
+    }
 }
