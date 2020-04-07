@@ -6,6 +6,7 @@
 /build/classes
 /build/distributions
 /build/generated
+/build/libs/server-1.0-SNAPSHOT.jar
 /build/reports
 /build/scripts
 /build/scriptsShadow
