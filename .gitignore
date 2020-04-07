@@ -3,8 +3,14 @@
 .idea/
 
 .gradle
-/build/
-!/build/libs
+/build/classes
+/build/distributions
+/build/generated
+/build/reports
+/build/scripts
+/build/scriptsShadow
+/build/test-results
+/build/tmp
 
 # Ignore Gradle GUI config
 gradle-app.setting
