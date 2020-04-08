@@ -70,7 +70,9 @@ jobs:
 
       - run:
           name: Deploying
-          command: eb deploy Server-env-1
+          command: |
+            eb init
+            eb deploy Server-env-1
 
 workflows:
   version: 2
