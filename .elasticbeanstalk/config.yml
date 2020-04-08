@@ -7,3 +7,5 @@ global:
   default_platform: Java 8 running on 64bit Amazon Linux/2.10.4
   default_region: us-east-1
   sc: git
+deploy:
+  artifact: ~/repo/build/libs/server-1.0-SNAPSHOT-all.jar
