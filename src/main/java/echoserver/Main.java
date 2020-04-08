@@ -11,7 +11,6 @@ public class Main {
 
         new EchoServer().echo(socketConnection);
 
-        socketConnection.close();
         listener.close();
     }
 }
