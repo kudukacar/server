@@ -43,25 +43,30 @@ jobs:
       # run tests!
       - run: gradle test
 
-  deploy:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/openjdk:8-jdk
-    steps:
-      - checkout
+      - store_artifacts:
+          path: build/libs/server-1.0-SNAPSHOT-all.jar
 
-      - run:
-          name: Installing deployment dependencies
-          working_directory: /
-          command: |
-            sudo apt-get -y -qq update
-            sudo apt-get install python-pip python-dev build-essential
-            sudo pip install --upgrade setuptools
-            sudo pip install awsebcli --upgrade
+      - persist_to_workspace:
+          root: ~/repo/build/libs
+          paths:
+            - server-1.0-SNAPSHOT-all.jar
+
+  deploy:
+    working_directory: ~/app
+    docker:
+      - image: chriscamicas/awscli-awsebcli
+    steps:
+      - attach-workspace:
+          at: ~/app/build/libs
 
       - run:
           name: Deploying
-          command: eb deploy Server-env-1
+          command: |
+            echo e-fts2bpcxsi
+            eb init server -p "64bit Amazon Linux 2018.03 v2.10.4 running Java 8" --region "us-east-1"
+            eb create Server-env-1 --single || true
+            eb deploy Server-env-1
+            eb status
 
 workflows:
   version: 2
