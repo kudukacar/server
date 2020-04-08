@@ -43,23 +43,19 @@ jobs:
       # run tests!
       - run: gradle test
 
-      - store_artifacts:
-          path: build/libs/server-1.0-SNAPSHOT-all.jar
-
-      - persist_to_workspace:
-          root: ~/repo/build/libs
-          paths:
-            - server-1.0-SNAPSHOT-all.jar
-
   deploy:
+    working_directory: ~/repo
     docker:
       - image: circleci/openjdk:8-jdk
     steps:
-      - attach-workspace:
-          at: /tmp/workspace
+      - checkout
+
+      - store_artifacts:
+          path: build/libs/server-1.0-SNAPSHOT-all.jar
 
       - run:
           name: Installing deployment dependencies
+          working_directory: /
           command: |
             sudo apt-get -y -qq update
             sudo apt-get install python-pip python-dev build-essential
@@ -69,9 +65,7 @@ jobs:
       - run:
           name: Deploying
           command: |
-            eb init server -k "e-fts2bpcxsi" -p "64bit Amazon Linux 2018.03 v2.10.4 running Java 8" --region "us-east-1"
             eb deploy Server-env-1
-            eb status
 
 workflows:
   version: 2
