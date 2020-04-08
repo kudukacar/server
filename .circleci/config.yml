@@ -71,7 +71,7 @@ jobs:
       - run:
           name: Deploying
           command: |
-            eb init Server-env-1 -p "Java 8 running on 64bit Amazon Linux/2.10.4" --region "us-east-1"
+            eb init Server-env-1 -p "64bit Amazon Linux 2018.03 v2.10.4 running Java 8" --region "us-east-1"
             eb deploy Server-env-1
 
 workflows:
