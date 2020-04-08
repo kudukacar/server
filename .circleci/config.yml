@@ -52,19 +52,18 @@ jobs:
             - server-1.0-SNAPSHOT-all.jar
 
   deploy:
-    working_directory: ~/app
+    working_directory: ~/repo
     docker:
       - image: chriscamicas/awscli-awsebcli
     steps:
       - attach-workspace:
-          at: ~/app/build/libs
+          at: ~/repo/build/libs
 
       - run:
           name: Deploying
           command: |
             echo e-fts2bpcxsi
             eb init server -p "64bit Amazon Linux 2018.03 v2.10.4 running Java 8" --region "us-east-1"
-            eb create Server-env-1 --single || true
             eb deploy Server-env-1
             eb status
 
