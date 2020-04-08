@@ -17,24 +17,23 @@ class TestServerSocket extends ServerSocket {
     }
 }
 
-class ConnectionTest {
+class ListenerTest {
     @Test
-    public void establishesConnection() throws IOException {
+    public void itEstablishesConnection() throws IOException {
         TestServerSocket serverSocket = new TestServerSocket();
 
-        Socket socket = new Connection().open(serverSocket);
+        SocketConnection socketConnection = new Listener(serverSocket).open();
 
-        assertFalse(socket.isClosed());
+        assertFalse(socketConnection.socket.isClosed());
     }
 
     @Test
-    public void closesConnection() throws IOException {
+    public void itClosesConnection() throws IOException {
         TestServerSocket serverSocket = new TestServerSocket();
+        Listener listener = new Listener(serverSocket);
 
-        Connection connection = new Connection();
-        Socket socket = connection.open(serverSocket);
-        connection.close(socket);
+        listener.close();
 
-        assertTrue(socket.isClosed());
+        assertTrue(serverSocket.isClosed());
     }
 }

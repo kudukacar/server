@@ -43,12 +43,21 @@ jobs:
       # run tests!
       - run: gradle test
 
+      - store_artifacts:
+          path: build/libs/server-1.0-SNAPSHOT-all.jar
+
+      - persist_to_workspace:
+          root: ~/repo/build/libs
+          paths:
+            - server-1.0-SNAPSHOT-all.jar
+
   deploy:
     working_directory: ~/repo
     docker:
       - image: circleci/openjdk:8-jdk
     steps:
-      - checkout
+      - attach-workspace:
+          at: ~/repo/build/libs
 
       - run:
           name: Installing deployment dependencies
