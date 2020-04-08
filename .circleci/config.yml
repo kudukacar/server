@@ -56,8 +56,13 @@ jobs:
     docker:
       - image: circleci/openjdk:8-jdk
     steps:
-      - attach-workspace:
-          at: ~/repo/build/libs
+      - checkout
+
+      - run:
+          name: Build artifacts
+          command: |
+            gradle build
+            zip -j ~/repo/build/libs/server-1.0-SNAPSHOT-all.zip ~/repo/build/libs/server-1.0-SNAPSHOT-all.jar
 
       - run:
           name: Installing deployment dependencies
