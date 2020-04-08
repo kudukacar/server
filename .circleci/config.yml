@@ -60,10 +60,18 @@ jobs:
           at: ~/repo/build/libs
 
       - run:
+          name: Installing deployment dependencies
+          working_directory: /
+          command: |
+            sudo apt-get -y -qq update
+            sudo apt-get install python-pip python-dev build-essential
+            sudo pip install --upgrade setuptools
+            sudo pip install awsebcli --upgrade
+
+      - run:
           name: Deploying
           command: |
-            echo e-fts2bpcxsi
-            eb init server -p "64bit Amazon Linux 2018.03 v2.10.4 running Java 8" --region "us-east-1"
+            eb init server -k "e-fts2bpcxsi" -p "64bit Amazon Linux 2018.03 v2.10.4 running Java 8" --region "us-east-1"
             eb deploy Server-env-1
             eb status
 
