@@ -3,14 +3,23 @@ package echoserver;
 import java.io.IOException;
 
 public class EchoServer {
-    public void echo(Connection connection) throws IOException {
-        String input;
+    private final Listenable listener;
+    private final Client echoClient;
+
+    public EchoServer(Listenable listener, Client echoClient) {
+        this.listener = listener;
+        this.echoClient = echoClient;
+    }
+
+    public void connect() throws IOException {
+        Connection socketConnection;
+
         try {
-            while ((input = connection.read()) != null) {
-                connection.write(input);
+            while((socketConnection = this.listener.open()) != null) {
+                this.echoClient.echo(socketConnection);
             }
         } finally {
-            connection.close();
+            listener.close();
         }
     }
 }

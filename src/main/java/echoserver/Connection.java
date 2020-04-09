@@ -8,4 +8,6 @@ public interface Connection {
     void write(String output) throws IOException;
 
     public void close() throws IOException;
+
+    public boolean isClosed();
 }

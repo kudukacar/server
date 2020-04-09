@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class SocketConnection implements Connection{
-    public final Socket socket;
+    private final Socket socket;
 
     public SocketConnection(Socket socket) {
         this.socket = socket;
@@ -26,5 +26,9 @@ public class SocketConnection implements Connection{
     @Override
     public void close() throws IOException {
         this.socket.close();
+    }
+
+    public boolean isClosed() {
+        return this.socket.isClosed();
     }
 }

@@ -2,7 +2,7 @@ package echoserver;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -10,49 +10,36 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EchoServerTest {
     @Test
-    void itEchosText() throws IOException {
-        EchoServer echoServer = new EchoServer();
-        ArrayList<String> input = new ArrayList<String>(Arrays.asList("This", "Should", "be", "echoed"));
-        TestConnection connection = new TestConnection(input);
-        echoServer.echo(connection);
+    void itConnectsToClientsInOrderReceived() throws IOException {
+        FakeEchoClient echoClient = new FakeEchoClient();
+        ClientSocketConnection first_client = new ClientSocketConnection();
+        ClientSocketConnection second_client = new ClientSocketConnection();
+        ClientSocketConnection third_client = new ClientSocketConnection();
+        ArrayList<ClientSocketConnection> clients = new ArrayList<ClientSocketConnection>(Arrays.asList(first_client, second_client, third_client));
+        FakeListener listener = new FakeListener(clients);
+        EchoServer echoServer = new EchoServer(listener, echoClient);
 
-        assertEquals(Arrays.asList("This", "Should", "be", "echoed"), connection.written);
+        echoServer.connect();
+
+        assertEquals(Arrays.asList(first_client, second_client, third_client),listener.connectedClients);
     }
 
     @Test
     void itClosesTheConnection() throws IOException {
-        EchoServer echoServer = new EchoServer();
-        ArrayList<String> input = new ArrayList<String>(Arrays.asList("This", "Should", "be", "echoed"));
-        TestConnection connection = new TestConnection(input);
-        echoServer.echo(connection);
+        FakeEchoClient echoClient = new FakeEchoClient();
+        ExceptionalListener listener = new ExceptionalListener();
+        EchoServer echoServer = new EchoServer(listener, echoClient);
 
-        assertTrue(connection.closed);
+        echoServer.connect();
+
+        assertTrue(listener.closed);
     }
 
-    @Test
-    void itClosesTheConnectionWhenAnExceptionIsRaised() throws IOException {
-        EchoServer echoServer = new EchoServer();
-        ExceptionalConnection connection = new ExceptionalConnection();
-
-        try {
-            echoServer.echo(connection);
-        } catch (Exception e) {
-
-        }
-        assertTrue(connection.closed);
-
-    }
-    private class ExceptionalConnection implements Connection {
-
-        private boolean closed;
-
-        public ExceptionalConnection() {
-            this.closed = false;
-        }
+    private class ClientSocketConnection implements Connection {
 
         @Override
         public String read() throws IOException {
-            throw new RuntimeException("Unable to read");
+            return null;
         }
 
         @Override
@@ -62,40 +49,61 @@ class EchoServerTest {
 
         @Override
         public void close() throws IOException {
-            this.closed = true;
+
+        }
+
+        @Override
+        public boolean isClosed() {
+            return false;
         }
     }
 
+    private class FakeEchoClient implements Client{
+        @Override
+        public void echo(Connection connection) {
+        }
+    }
 
-    private class TestConnection implements Connection {
+    private class ExceptionalListener implements Listenable {
 
-        public ArrayList<String> written;
         public boolean closed;
-        private ArrayList<String> input;
 
-        public TestConnection(ArrayList<String> input) {
-            this.input = input;
-            this.written = new ArrayList<String>();
+        public ExceptionalListener() {
             this.closed = false;
         }
 
         @Override
-        public String read() {
-            if(this.input.size() > 0) {
-                return this.input.remove(0);
-            } else {
-                return null;
-            }
+        public Connection open() {
+            return null;
         }
 
         @Override
-        public void write(String output) {
-            this.written.add(output);
-        }
-
-        @Override
-        public void close() throws IOException {
+        public void close() {
             this.closed = true;
+        }
+    }
+
+    private class FakeListener implements Listenable{
+        private ArrayList<ClientSocketConnection> clients;
+        public ArrayList<ClientSocketConnection> connectedClients;
+
+        public FakeListener(ArrayList<ClientSocketConnection> clients) {
+            this.clients = clients;
+            this.connectedClients = new ArrayList<ClientSocketConnection>();
+        }
+
+        @Override
+        public Connection open() {
+            if(this.clients.size() > 0) {
+                ClientSocketConnection client = this.clients.remove(0);
+                this.connectedClients.add(client);
+                return client;
+            } else return null;
+        }
+
+        @Override
+        public void close() {
+
         }
     }
 }

@@ -35,7 +35,15 @@ class SocketConnectionTest {
 
         socketConnection.close();
 
-        assertTrue(socketConnection.socket.isClosed());
+        assertTrue(socketConnection.isClosed());
+    }
+
+    @Test
+    void itReturnsFalseWhenConnectionIsOpen() {
+        Socket socket = new FakeSocket("Connected");
+        SocketConnection socketConnection = new SocketConnection(socket);
+
+        assertFalse(socketConnection.isClosed());
     }
 
     private class FakeSocket extends Socket {
