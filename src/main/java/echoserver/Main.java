@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         ServerSocket serverSocket = new ServerSocket(5000);
-        Listener listener = new Listener(serverSocket);
         EchoClient echoClient = new EchoClient();
-        new EchoServer(listener, echoClient).connect();
+
+        try(Listener listener = new Listener(serverSocket);) {
+            new EchoServer(listener, echoClient).start();
+        }
     }
 }

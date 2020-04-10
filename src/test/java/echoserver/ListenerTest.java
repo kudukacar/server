@@ -28,7 +28,7 @@ class ListenerTest {
     }
 
     @Test
-    public void itClosesConnection() throws IOException {
+    public void itClosesConnection() throws Exception {
         TestServerSocket serverSocket = new TestServerSocket();
         Listener listener = new Listener(serverSocket);
 

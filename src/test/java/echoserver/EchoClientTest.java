@@ -41,7 +41,7 @@ class EchoClientTest {
         }
 
         @Override
-        public String read() throws IOException {
+        public String read() {
             throw new RuntimeException("Unable to read");
         }
 
@@ -87,7 +87,7 @@ class EchoClientTest {
         }
 
         @Override
-        public void close() throws IOException {
+        public void close() {
         }
 
         @Override

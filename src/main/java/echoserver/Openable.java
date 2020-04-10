@@ -2,7 +2,6 @@ package echoserver;
 
 import java.io.IOException;
 
-public interface Listenable {
+public interface Openable extends AutoCloseable{
     Connection open() throws IOException;
-    void close() throws IOException;
 }

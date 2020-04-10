@@ -2,7 +2,7 @@ package echoserver;
 
 import java.io.IOException;
 
-public class EchoClient implements Client{
+public class EchoClient implements Echoable {
     public void echo(Connection connection) throws IOException {
         String input;
         try {

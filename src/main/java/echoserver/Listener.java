@@ -3,7 +3,7 @@ package echoserver;
 import java.io.IOException;
 import java.net.*;
 
-public class Listener implements Listenable{
+public class Listener implements Openable {
     private final ServerSocket serverSocket;
 
     public Listener(ServerSocket serverSocket) {
@@ -15,7 +15,7 @@ public class Listener implements Listenable{
         return new SocketConnection(socket);
     }
 
-    public void close() throws IOException {
+    public void close() throws Exception {
         this.serverSocket.close();
     }
 }
