@@ -1,12 +1,18 @@
 package echoserver;
 
-import java.io.IOException;
-
 public class EchoServer {
-    public void echo(Connection connection) throws IOException {
-        String input;
-        while ((input = connection.read()) != null) {
-            connection.write(input);
+    private final Listenable listener;
+    private final Echoable echoer;
+
+    public EchoServer(Listenable listener, Echoable echoer) {
+        this.listener = listener;
+        this.echoer = echoer;
+    }
+
+    public void start() throws Exception {
+        Connection socketConnection;
+        while((socketConnection = this.listener.listen()) != null) {
+            this.echoer.echo(socketConnection);
         }
     }
 }

@@ -1,17 +1,14 @@
 package echoserver;
 
-import java.io.IOException;
 import java.net.ServerSocket;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         ServerSocket serverSocket = new ServerSocket(5000);
-        Listener listener = new Listener(serverSocket);
-        SocketConnection socketConnection = listener.open();
+        Echoer echoer = new Echoer();
 
-        new EchoServer().echo(socketConnection);
-
-        socketConnection.close();
-        listener.close();
+        try(Listener listener = new Listener(serverSocket);) {
+            new EchoServer(listener, echoer).start();
+        }
     }
 }

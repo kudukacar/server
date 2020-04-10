@@ -35,7 +35,15 @@ class SocketConnectionTest {
 
         socketConnection.close();
 
-        assertTrue(socketConnection.socket.isClosed());
+        assertTrue(socketConnection.isClosed());
+    }
+
+    @Test
+    void itReturnsFalseWhenConnectionIsOpen() {
+        Socket socket = new FakeSocket("Connected");
+        SocketConnection socketConnection = new SocketConnection(socket);
+
+        assertFalse(socketConnection.isClosed());
     }
 
     private class FakeSocket extends Socket {
@@ -49,12 +57,12 @@ class SocketConnectionTest {
         }
 
         @Override
-        public OutputStream getOutputStream() throws IOException {
+        public OutputStream getOutputStream() {
             return this.output;
         }
 
         @Override
-        public InputStream getInputStream() throws IOException {
+        public InputStream getInputStream() {
             return this.input;
         }
     }

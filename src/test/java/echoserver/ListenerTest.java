@@ -22,13 +22,13 @@ class ListenerTest {
     public void itEstablishesConnection() throws IOException {
         TestServerSocket serverSocket = new TestServerSocket();
 
-        SocketConnection socketConnection = new Listener(serverSocket).open();
+        Connection socketConnection = new Listener(serverSocket).listen();
 
-        assertFalse(socketConnection.socket.isClosed());
+        assertFalse(socketConnection.isClosed());
     }
 
     @Test
-    public void itClosesConnection() throws IOException {
+    public void itClosesConnection() throws Exception {
         TestServerSocket serverSocket = new TestServerSocket();
         Listener listener = new Listener(serverSocket);
 

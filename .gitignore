@@ -3,22 +3,12 @@
 .idea/
 
 .gradle
-/build/classes
-/build/distributions
-/build/generated
-/build/libs/server-1.0-SNAPSHOT.jar
-/build/reports
-/build/scripts
-/build/scriptsShadow
-/build/test-results
-/build/tmp
-
+/build/
 # Ignore Gradle GUI config
 gradle-app.setting
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
-!server-1.0-SNAPSHOT-all.jar
 
 # Cache of project
 .gradletasknamecache
