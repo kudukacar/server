@@ -6,9 +6,9 @@ public class EchoServer {
     private final Openable listener;
     private final Echoable echoClient;
 
-    public EchoServer(Openable listener, Echoable echoClient) {
+    public EchoServer(Openable listener, Echoable echoer) {
         this.listener = listener;
-        this.echoClient = echoClient;
+        this.echoClient = echoer;
     }
 
     public void start() throws Exception {

@@ -8,24 +8,24 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EchoClientTest {
+class EchoerTest {
     @Test
     void itEchosText() throws IOException {
-        EchoClient echoClient = new EchoClient();
+        Echoer echoer = new Echoer();
         ArrayList<String> input = new ArrayList<String>(Arrays.asList("This", "Should", "be", "echoed"));
         TestConnection connection = new TestConnection(input);
-        echoClient.echo(connection);
+        echoer.echo(connection);
 
         assertEquals(Arrays.asList("This", "Should", "be", "echoed"), connection.written);
     }
 
     @Test
     void itClosesTheConnectionWhenAnExceptionIsRaised() {
-        EchoClient echoClient = new EchoClient();
+        Echoer echoer = new Echoer();
         ExceptionalConnection connection = new ExceptionalConnection();
 
         try {
-            echoClient.echo(connection);
+            echoer.echo(connection);
         } catch (Exception e) {
 
         }
