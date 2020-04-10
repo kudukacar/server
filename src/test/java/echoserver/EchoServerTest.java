@@ -2,7 +2,6 @@ package echoserver;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -53,7 +52,7 @@ class EchoServerTest {
         }
     }
 
-    private class FakeListener implements Openable {
+    private class FakeListener implements Listenable {
         private ArrayList<TestConnection> clients;
         public ArrayList<TestConnection> connectedClients;
 
@@ -63,7 +62,7 @@ class EchoServerTest {
         }
 
         @Override
-        public Connection open() {
+        public Connection listen() {
             if(this.clients.size() > 0) {
                 TestConnection client = this.clients.remove(0);
                 this.connectedClients.add(client);

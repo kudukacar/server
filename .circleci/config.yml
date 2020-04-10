@@ -49,6 +49,22 @@ jobs:
       - image: circleci/openjdk:8-jdk
     steps:
       - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: gradle dependencies
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+
+      # run jar task
+      - run: gradle shadowJar
 
       - store_artifacts:
           path: build/libs/server-1.0-SNAPSHOT-all.jar

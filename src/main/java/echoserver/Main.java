@@ -9,7 +9,6 @@ public class Main {
 
         try(Listener listener = new Listener(serverSocket);) {
             new EchoServer(listener, echoer).start();
-            System.out.println("hello");
         }
     }
 }
