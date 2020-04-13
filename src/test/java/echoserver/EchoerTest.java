@@ -10,18 +10,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EchoerTest {
     @Test
-    void itEchosText() throws IOException {
-        Echoer echoer = new Echoer();
+    void itEchosTextAfterWelcomingTheUser() throws IOException {
+        Echoer echoer = new Echoer("Welcome");
         ArrayList<String> input = new ArrayList<String>(Arrays.asList("This", "Should", "be", "echoed"));
         TestConnection connection = new TestConnection(input);
         echoer.echo(connection);
 
-        assertEquals(Arrays.asList("This", "Should", "be", "echoed"), connection.written);
+        assertEquals(Arrays.asList("Welcome", "This", "Should", "be", "echoed"), connection.written);
     }
 
     @Test
     void itClosesTheConnectionWhenAnExceptionIsRaised() {
-        Echoer echoer = new Echoer();
+        Echoer echoer = new Echoer("Welcome");
         ExceptionalConnection connection = new ExceptionalConnection();
 
         try {
