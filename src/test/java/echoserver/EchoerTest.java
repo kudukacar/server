@@ -2,16 +2,18 @@ package echoserver;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EchoerTest {
     @Test
     void itEchosTextAfterWelcomingTheUser() throws IOException {
-        Echoer echoer = new Echoer("Welcome");
+        errorLogger logger = new errorLogger();
+        Echoer echoer = new Echoer("Welcome", logger);
         ArrayList<String> input = new ArrayList<String>(Arrays.asList("This", "Should", "be", "echoed"));
         TestConnection connection = new TestConnection(input);
         echoer.echo(connection);
@@ -20,18 +22,28 @@ class EchoerTest {
     }
 
     @Test
-    void itClosesTheConnectionWhenAnExceptionIsRaised() {
-        Echoer echoer = new Echoer("Welcome");
+    void itLogsAMessageWhenAnExceptionIsRaised() throws IOException {
+        errorLogger logger = new errorLogger();
+        Echoer echoer = new Echoer("Welcome", logger);
         ExceptionalConnection connection = new ExceptionalConnection();
 
-        try {
-            echoer.echo(connection);
-        } catch (Exception e) {
+        echoer.echo(connection);
 
-        }
+        assertTrue(logger.logged.contains("read"));
+    }
+
+    @Test
+    void itClosesTheConnectionWhenAnExceptionIsRaised() throws IOException {
+        errorLogger logger = new errorLogger();
+        Echoer echoer = new Echoer("Welcome", logger);
+        ExceptionalConnection connection = new ExceptionalConnection();
+
+        echoer.echo(connection);
+
         assertTrue(connection.isClosed());
 
     }
+
     private class ExceptionalConnection implements Connection {
 
         private boolean closed;
@@ -41,8 +53,8 @@ class EchoerTest {
         }
 
         @Override
-        public String read() {
-            throw new RuntimeException("Unable to read");
+        public String read() throws IOException {
+            throw new IOException("Unable to read");
         }
 
         @Override
@@ -93,6 +105,14 @@ class EchoerTest {
         @Override
         public boolean isClosed() {
             return false;
+        }
+    }
+
+    private class errorLogger implements Loggable{
+        String logged = "";
+        @Override
+        public void log(String error) {
+            logged = error;
         }
     }
 }
