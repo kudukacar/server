@@ -15,7 +15,7 @@ class EchoServerTest {
     TestConnection firstConnection;
     TestConnection secondConnection;
     TestConnection thirdConnection;
-    ArrayList<TestConnection> clients;
+    ArrayList<TestConnection> connections;
     FakeListener listener;
     SerialExecutor executor;
     errorLogger logger;
@@ -26,8 +26,8 @@ class EchoServerTest {
         firstConnection = new TestConnection();
         secondConnection = new TestConnection();
         thirdConnection = new TestConnection();
-        clients = new ArrayList<TestConnection>(Arrays.asList(firstConnection, secondConnection, thirdConnection));
-        listener = new FakeListener(clients);
+        connections = new ArrayList<TestConnection>(Arrays.asList(firstConnection, secondConnection, thirdConnection));
+        listener = new FakeListener(connections);
         executor = new SerialExecutor();
         logger = new errorLogger();
     }

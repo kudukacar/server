@@ -12,10 +12,11 @@ class LoggerTest {
     void itLogsAMessage() {
         FakePrintStream printStream = new FakePrintStream(System.out);
         Logger logger = new Logger(printStream);
+        String error = "There was an error";
 
-        logger.log("hello");
+        logger.log(error);
 
-        assertEquals("hello", printStream.logged);
+        assertEquals(error, printStream.logged);
     }
 
 
