@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class EchoerTest {
     @Test
     void itEchosTextAfterWelcomingTheUser() throws IOException {
-        errorLogger logger = new errorLogger();
+        ErrorLogger logger = new ErrorLogger();
         Echoer echoer = new Echoer("Welcome", logger);
         ArrayList<String> input = new ArrayList<String>(Arrays.asList("This", "Should", "be", "echoed"));
         TestConnection connection = new TestConnection(input);
@@ -23,7 +23,7 @@ class EchoerTest {
 
     @Test
     void itLogsAMessageWhenAnExceptionIsRaised() throws IOException {
-        errorLogger logger = new errorLogger();
+        ErrorLogger logger = new ErrorLogger();
         Echoer echoer = new Echoer("Welcome", logger);
         ExceptionalConnection connection = new ExceptionalConnection();
 
@@ -34,7 +34,7 @@ class EchoerTest {
 
     @Test
     void itClosesTheConnectionWhenAnExceptionIsRaised() throws IOException {
-        errorLogger logger = new errorLogger();
+        ErrorLogger logger = new ErrorLogger();
         Echoer echoer = new Echoer("Welcome", logger);
         ExceptionalConnection connection = new ExceptionalConnection();
 
@@ -108,7 +108,7 @@ class EchoerTest {
         }
     }
 
-    private class errorLogger implements Loggable{
+    private class ErrorLogger implements Loggable{
         String logged = "";
         @Override
         public void log(String error) {

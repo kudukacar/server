@@ -24,7 +24,7 @@ public class EchoServer {
                 try {
                     this.echoer.echo(finalSocketConnection);
                 } catch (IOException e) {
-                    this.logger.log("Failed to echo.");
+                    this.logger.log("Failed to echo connection.");
                 }
             };
             executor.execute(runnable);

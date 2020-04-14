@@ -18,7 +18,7 @@ class EchoServerTest {
     ArrayList<TestConnection> connections;
     FakeListener listener;
     SerialExecutor executor;
-    errorLogger logger;
+    ErrorLogger logger;
     EchoServer echoServer;
 
     @BeforeEach
@@ -29,7 +29,7 @@ class EchoServerTest {
         connections = new ArrayList<TestConnection>(Arrays.asList(firstConnection, secondConnection, thirdConnection));
         listener = new FakeListener(connections);
         executor = new SerialExecutor();
-        logger = new errorLogger();
+        logger = new ErrorLogger();
     }
 
     @Test
@@ -145,7 +145,7 @@ class EchoServerTest {
         }
     }
 
-    private class errorLogger implements Loggable{
+    private class ErrorLogger implements Loggable{
         String logged = "";
         @Override
         public void log(String error) {

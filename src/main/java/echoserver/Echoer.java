@@ -19,7 +19,7 @@ public class Echoer implements Echoable {
                 connection.write(input);
             }
         } catch (IOException e) {
-            logger.log("Failed to read.");
+            logger.log("Failed to read from connection.");
         } finally {
             connection.close();
         }
