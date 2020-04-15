@@ -1,29 +1,81 @@
 package echoserver;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.Executor;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class EchoServerTest {
+    Echoable echoer;
+    TestConnection firstConnection;
+    TestConnection secondConnection;
+    TestConnection thirdConnection;
+    ArrayList<TestConnection> connections;
+    FakeListener listener;
+    SerialExecutor executor;
+    ErrorLogger logger;
+    EchoServer echoServer;
+
+    @BeforeEach
+    void setUp() {
+        firstConnection = new TestConnection();
+        secondConnection = new TestConnection();
+        thirdConnection = new TestConnection();
+        connections = new ArrayList<TestConnection>(Arrays.asList(firstConnection, secondConnection, thirdConnection));
+        listener = new FakeListener(connections);
+        executor = new SerialExecutor();
+        logger = new ErrorLogger();
+    }
+
     @Test
-    void itConnectsToClientsInOrderReceived() throws Exception {
-        FakeEchoClient echoClient = new FakeEchoClient();
-        TestConnection firstClient = new TestConnection();
-        TestConnection secondClient = new TestConnection();
-        TestConnection thirdClient = new TestConnection();
-        ArrayList<TestConnection> clients = new ArrayList<TestConnection>(Arrays.asList(firstClient, secondClient, thirdClient));
-        FakeListener listener = new FakeListener(clients);
-        EchoServer echoServer = new EchoServer(listener, echoClient);
+    void itHandlesMultipleConnections() throws Exception {
+        echoer = new EchoOnlyOnce();
+        echoServer = new EchoServer(listener, executor, echoer, logger);
 
         echoServer.start();
 
-        assertEquals(Arrays.asList(firstClient, secondClient, thirdClient),listener.connectedClients);
+        assertEquals(Arrays.asList(firstConnection, secondConnection, thirdConnection),listener.connectedClients);
+    }
+
+    @Test
+    void itExecutesTheRunnableForEachConnection() throws Exception {
+        echoer = new EchoOnlyOnce();
+        echoServer = new EchoServer(listener, executor, echoer, logger);
+
+        echoServer.start();
+
+        assertEquals(Arrays.asList("executed", "executed", "executed"), executor.executed);
+    }
+
+    @Test
+    void itEchoesEachConnection() throws Exception {
+        echoer = new EchoOnlyOnce();
+        echoServer = new EchoServer(listener, executor, echoer, logger);
+
+        echoServer.start();
+
+        assertEquals("echoechoecho", firstConnection.writes + secondConnection.writes + thirdConnection.writes);
+    }
+
+    @Test
+    void itLogsAMessageWhenAnExceptionIsRaised() throws Exception {
+        echoer = new ExceptionalEchoer();
+        echoServer = new EchoServer(listener, executor, echoer, logger);
+
+        echoServer.start();
+
+        assertTrue(logger.logged.contains("echo"));
     }
 
     private class TestConnection implements Connection {
+
+
+        public String writes = null;
 
         @Override
         public String read() {
@@ -32,7 +84,7 @@ class EchoServerTest {
 
         @Override
         public void write(String output) {
-
+            this.writes = output;
         }
 
         @Override
@@ -46,9 +98,17 @@ class EchoServerTest {
         }
     }
 
-    private class FakeEchoClient implements Echoable {
+    private class EchoOnlyOnce implements Echoable {
         @Override
-        public void echo(Connection connection) {
+        public void echo(Connection connection) throws IOException {
+            connection.write("echo");
+        }
+    }
+
+    private class ExceptionalEchoer implements Echoable {
+        @Override
+        public void echo(Connection connection) throws IOException {
+            throw new IOException("Unable to echo.");
         }
     }
 
@@ -73,6 +133,23 @@ class EchoServerTest {
         @Override
         public void close() {
 
+        }
+    }
+
+    private class SerialExecutor implements Executor {
+        public ArrayList<String> executed = new ArrayList<String>();
+        @Override
+        public void execute(Runnable runnable) {
+            executed.add("executed");
+            runnable.run();
+        }
+    }
+
+    private class ErrorLogger implements Loggable{
+        String logged = "";
+        @Override
+        public void log(String error) {
+            logged = error;
         }
     }
 }
