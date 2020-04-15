@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EchoerTest {
     @Test
@@ -20,59 +19,6 @@ class EchoerTest {
 
         assertEquals(Arrays.asList("Welcome", "This", "Should", "be", "echoed"), connection.written);
     }
-
-    @Test
-    void itLogsAMessageWhenAnExceptionIsRaised() throws IOException {
-        ErrorLogger logger = new ErrorLogger();
-        Echoer echoer = new Echoer("Welcome", logger);
-        ExceptionalConnection connection = new ExceptionalConnection();
-
-        echoer.echo(connection);
-
-        assertTrue(logger.logged.contains("read"));
-    }
-
-    @Test
-    void itClosesTheConnectionWhenAnExceptionIsRaised() throws IOException {
-        ErrorLogger logger = new ErrorLogger();
-        Echoer echoer = new Echoer("Welcome", logger);
-        ExceptionalConnection connection = new ExceptionalConnection();
-
-        echoer.echo(connection);
-
-        assertTrue(connection.isClosed());
-
-    }
-
-    private class ExceptionalConnection implements Connection {
-
-        private boolean closed;
-
-        public ExceptionalConnection() {
-            this.closed = false;
-        }
-
-        @Override
-        public String read() throws IOException {
-            throw new IOException("Unable to read");
-        }
-
-        @Override
-        public void write(String output) {
-
-        }
-
-        @Override
-        public void close() {
-            this.closed = true;
-        }
-
-        @Override
-        public boolean isClosed() {
-            return this.closed;
-        }
-    }
-
 
     private class TestConnection implements Connection {
 

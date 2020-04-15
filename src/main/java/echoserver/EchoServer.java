@@ -19,15 +19,19 @@ public class EchoServer {
     public void start() throws Exception {
         Connection socketConnection;
         while((socketConnection = this.listener.listen()) != null) {
-            Connection finalSocketConnection = socketConnection;
-            Runnable runnable = () -> {
-                try {
-                    this.echoer.echo(finalSocketConnection);
-                } catch (IOException e) {
-                    this.logger.log("Failed to echo connection.");
-                }
-            };
+            Runnable runnable = runnable(socketConnection);
             executor.execute(runnable);
         }
+    }
+
+    private Runnable runnable(Connection connection) {
+        Runnable runnable = () -> {
+            try (Connection socketConnection = connection) {
+                this.echoer.echo(connection);
+            } catch (IOException e) {
+                this.logger.log("Failed to read the socket connection.");
+            }
+        };
+        return runnable;
     }
 }

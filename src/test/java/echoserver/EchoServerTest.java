@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,6 +60,11 @@ class EchoServerTest {
 
         echoServer.start();
 
+        String expected = connections
+                .stream()
+                .map(c -> c.writes)
+                .collect(Collectors.joining(""));
+
         assertEquals("echoechoecho", firstConnection.writes + secondConnection.writes + thirdConnection.writes);
     }
 
@@ -69,13 +75,24 @@ class EchoServerTest {
 
         echoServer.start();
 
-        assertTrue(logger.logged.contains("echo"));
+        assertTrue(logger.logged.contains("read"));
+    }
+
+    @Test
+    void itClosesTheConnection() throws Exception {
+        echoer = new EchoOnlyOnce();
+        echoServer = new EchoServer(listener, executor, echoer, logger);
+
+        echoServer.start();
+
+        assertTrue(firstConnection.isClosed());
     }
 
     private class TestConnection implements Connection {
 
 
         public String writes = null;
+        private boolean closed = false;
 
         @Override
         public String read() {
@@ -89,12 +106,12 @@ class EchoServerTest {
 
         @Override
         public void close() {
-
+            closed = true;
         }
 
         @Override
         public boolean isClosed() {
-            return false;
+            return closed;
         }
     }
 
