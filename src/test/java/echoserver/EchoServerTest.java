@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.Executor;
-import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EchoServerTest {
     Echoable echoer;
@@ -59,11 +59,6 @@ class EchoServerTest {
         echoServer = new EchoServer(listener, executor, echoer, logger);
 
         echoServer.start();
-
-        String expected = connections
-                .stream()
-                .map(c -> c.writes)
-                .collect(Collectors.joining(""));
 
         assertEquals("echoechoecho", firstConnection.writes + secondConnection.writes + thirdConnection.writes);
     }
