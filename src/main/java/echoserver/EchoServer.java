@@ -27,9 +27,9 @@ public class EchoServer {
     private Runnable runnable(Connection connection) {
         Runnable runnable = () -> {
             try (Connection socketConnection = connection) {
-                this.echoer.echo(connection);
+                this.echoer.echo(socketConnection);
             } catch (IOException e) {
-                this.logger.log("Failed to read the socket connection.");
+                this.logger.log("Failed to read from or write to the socket connection.");
             }
         };
         return runnable;
