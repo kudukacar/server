@@ -29,7 +29,7 @@ public class EchoServer {
             try (Connection socketConnection = connection) {
                 this.echoer.echo(socketConnection);
             } catch (IOException e) {
-                this.logger.log("Failed to read from or write to the socket connection.");
+                this.logger.log("Failed to read from or write to the socket connection: " + e);
             }
         };
         return runnable;
