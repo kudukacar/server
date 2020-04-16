@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class EchoerTest {
     @Test
     void itEchosTextAfterWelcomingTheUser() throws IOException {
-        ErrorLogger logger = new ErrorLogger();
-        Echoer echoer = new Echoer("Welcome", logger);
+        Echoer echoer = new Echoer("Welcome");
         ArrayList<String> input = new ArrayList<String>(Arrays.asList("This", "Should", "be", "echoed"));
         TestConnection connection = new TestConnection(input);
         echoer.echo(connection);
@@ -51,14 +50,6 @@ class EchoerTest {
         @Override
         public boolean isClosed() {
             return false;
-        }
-    }
-
-    private class ErrorLogger implements Loggable{
-        String logged = "";
-        @Override
-        public void log(String error) {
-            logged = error;
         }
     }
 }
