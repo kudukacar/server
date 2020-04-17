@@ -1,11 +1,11 @@
 branch-defaults:
   master:
-    environment: Server-env-1
+    environment: Server-env
 deploy:
   artifact: build/libs/server-1.0-SNAPSHOT-all.jar
 global:
   application_name: server
-  default_ec2_keyname: e-fts2bpcxsi
+  default_ec2_keyname: e-qaxcb3z4ga
   default_platform: Java 8 running on 64bit Amazon Linux/2.10.4
   default_region: us-east-1
   sc: git

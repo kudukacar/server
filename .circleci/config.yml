@@ -81,7 +81,7 @@ jobs:
       - run:
           name: Deploying
           command: |
-            eb deploy Server-env-1
+            eb deploy Server-env
 
 workflows:
   version: 2
