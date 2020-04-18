@@ -1,4 +1,4 @@
-package echoserver;
+package Infrastructure;
 
 import java.io.IOException;
 

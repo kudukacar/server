@@ -1,4 +1,4 @@
-package echoserver;
+package Infrastructure;
 
 import org.junit.jupiter.api.Test;
 

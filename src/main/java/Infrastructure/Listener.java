@@ -1,7 +1,8 @@
-package echoserver;
+package Infrastructure;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Listener implements Listenable {
     private final ServerSocket serverSocket;

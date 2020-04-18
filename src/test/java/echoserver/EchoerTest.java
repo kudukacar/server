@@ -1,5 +1,6 @@
 package echoserver;
 
+import Infrastructure.Connection;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

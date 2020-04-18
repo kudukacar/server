@@ -1,5 +1,8 @@
 package echoserver;
 
+import Infrastructure.Connection;
+import Infrastructure.Listenable;
+
 import java.io.IOException;
 import java.util.concurrent.Executor;
 
