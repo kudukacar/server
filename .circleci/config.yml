@@ -47,6 +47,7 @@ jobs:
           command: |
             sudo apt-get -y -qq update
             sudo apt-get install ruby2.5
+            sudo gem install bundler
             bundle install
             rake test:f1
       # run tests!
