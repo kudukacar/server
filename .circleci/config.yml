@@ -24,10 +24,9 @@ jobs:
     steps:
       - checkout
 
-      - run: set +e
-
       - run: echo ${CIRCLE_BRANCH}
 
+      - run: set +e
       # Download and cache dependencies
       - restore_cache:
           keys:
