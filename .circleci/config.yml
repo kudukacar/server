@@ -40,6 +40,14 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
+      - run:
+          name: Acceptance tests
+          docker:
+            - image: circleci/ruby:2.5
+          working_directory: ~/repo/http_server_spec
+          command: |
+            bundle install
+            rake test:f1
       # run tests!
       - run: gradle test
 
