@@ -56,7 +56,7 @@ jobs:
             rbenv install 2.5.0
             rbenv global 2.5.0
             sudo apt-get install rubygems ruby-dev
-            sudo gem install bundler
+            sudo gem install bundler:1.17.2
             bundle install
             rake test:f1
       # run tests!
