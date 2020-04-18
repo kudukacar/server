@@ -55,6 +55,7 @@ jobs:
             PATH="$HOME/.rbenv/bin:$PATH"
             rbenv install 2.5.0
             rbenv global 2.5.0
+            sudo apt-get install rubygems ruby-dev
             bundle install
             rake test:f1
       # run tests!
