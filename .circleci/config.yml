@@ -45,7 +45,7 @@ jobs:
           name: Acceptance tests
           working_directory: ~/repo/http_server_spec
           command: |
-            sudo apt-get update
+            sudo apt-get -y -qq update
             sudo apt-get install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev
             git clone https://github.com/rbenv/rbenv.git ~/.rbenv
             echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
