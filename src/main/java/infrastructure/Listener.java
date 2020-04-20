@@ -1,4 +1,4 @@
-package Infrastructure;
+package infrastructure;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -1,7 +1,7 @@
 package echoserver;
 
-import Infrastructure.Connection;
-import Infrastructure.Listenable;
+import infrastructure.Connection;
+import infrastructure.Listenable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

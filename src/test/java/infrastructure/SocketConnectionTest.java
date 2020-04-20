@@ -1,4 +1,4 @@
-package Infrastructure;
+package infrastructure;
 
 import org.junit.jupiter.api.Test;
 

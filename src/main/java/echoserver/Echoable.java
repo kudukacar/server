@@ -1,6 +1,6 @@
 package echoserver;
 
-import Infrastructure.Connection;
+import infrastructure.Connection;
 
 import java.io.IOException;
 
