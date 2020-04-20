@@ -41,8 +41,6 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
-      - run: gradle run
-
       - run:
           name: Acceptance tests
           working_directory: ~/repo/http_server_spec
@@ -61,8 +59,6 @@ jobs:
             sudo gem install bundler:1.17.2
             bundle install
             rake test:f1
-
-      - run: gradle --stop
 
       # run tests!
       - run: gradle test
