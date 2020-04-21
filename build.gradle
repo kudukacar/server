@@ -42,3 +42,10 @@ task echoServer (type: Jar) {
 
     archiveFileName="echoserver.jar"
 }
+
+task server(type: JavaExec) {
+    group = "Execution"
+    description = "Run the main class with JavaExecTask"
+    classpath = sourceSets.main.runtimeClasspath
+    main = "httpserver.Main"
+}
