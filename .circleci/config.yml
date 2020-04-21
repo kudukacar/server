@@ -89,7 +89,12 @@ jobs:
           working_directory: ~/repo/http_server_spec
           command: ../spinach.sh
 
-      - run: nc -z localhost 5000
+      - run:
+          command: |
+            until nc -z localhost 5000
+            do
+              sleep 5
+            done
 
       - run:
           name: Run acceptance tests
