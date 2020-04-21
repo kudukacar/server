@@ -1,5 +1,8 @@
 package echoserver;
 
+import infrastructure.Connection;
+import infrastructure.Listenable;
+import infrastructure.Loggable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -157,7 +160,7 @@ class EchoServerTest {
         }
     }
 
-    private class ErrorLogger implements Loggable{
+    private class ErrorLogger implements Loggable {
         String logged = "";
         @Override
         public void log(String error) {

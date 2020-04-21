@@ -64,10 +64,11 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run jar task
-      - run: gradle shadowJar
+      - run: gradle echoServer
+      - run: gradle httpServer
 
       - store_artifacts:
-          path: build/libs/server-1.0-SNAPSHOT-all.jar
+          path: build/libs
 
       - run:
           name: Installing deployment dependencies
@@ -81,6 +82,10 @@ jobs:
       - run:
           name: Deploying
           command: |
+            cat httpserver.yml >> .elasticbeanstalk/config.yml
+            eb deploy HttpServer-env
+            > .elasticbeanstalk/config.yml
+            cat echoserver.yml >> .elasticbeanstalk/config.yml
             eb deploy Server-env-1
 
 workflows:

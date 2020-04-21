@@ -1,0 +1,11 @@
+branch-defaults:
+  master:
+    environment: HttpServer-env
+deploy:
+  artifact: build/libs/httpserver.jar
+global:
+  application_name: http_server
+  default_ec2_keyname: e-jfvnmhjemf
+  default_platform: Java 8 running on 64bit Amazon Linux/2.10.4
+  default_region: us-east-1
+  sc: git

@@ -1,13 +1,8 @@
 plugins {
     id 'java'
-    id 'application'
-    id "com.github.johnrengelman.shadow" version "5.2.0"
 }
 
-mainClassName = 'echoserver.Main'
-
-group 'org.example'
-version '1.0-SNAPSHOT'
+version ''
 
 sourceCompatibility = 1.8
 
@@ -24,4 +19,26 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
     }
+}
+
+task httpServer (type: Jar)  {
+    manifest {
+        attributes 'Main-Class': 'httpserver.Main'
+    }
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+
+    archiveFileName="httpserver.jar"
+}
+
+task echoServer (type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'echoserver.Main'
+    }
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+
+    archiveFileName="echoserver.jar"
 }
