@@ -86,14 +86,15 @@ jobs:
 
       - run:
           name: run server
-          command: gradle server
+          command: |
+            apt-get update && apt-get install -y netcat
+            gradle server -wait nc -z localhost 5000 -timeout 1m
           background: true
 
       - run:
           name: Run acceptance tests
           working_directory: ~/repo/http_server_spec
           command: |
-            sleep 30
             rake test:f1 || true
 
       - run: gradle --stop
