@@ -80,14 +80,16 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       - run:
+          name: start server
+          command: gradle server
+          background: true
+
+      - run:
           name: Install spinach dependencies
           working_directory: ~/repo/http_server_spec
           command: ../spinach.sh
 
-      - run:
-          name: start server
-          command: gradle server -wait nc -z localhost 5000
-          background: true
+      - run: nc -z localhost 5000
 
       - run:
           name: Run acceptance tests
