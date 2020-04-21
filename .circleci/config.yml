@@ -79,7 +79,11 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
-      # run server
+      - run:
+          name: Install spinach dependencies
+          working_directory: ~/repo/http_server_spec
+          command: ../spinach.sh
+
       - run:
           name: run server
           command: gradle server
@@ -89,8 +93,7 @@ jobs:
           name: Run acceptance tests
           working_directory: ~/repo/http_server_spec
           command: |
-            sleep 1
-            ../spinach.sh
+            sleep 30
             rake test:f1 || true
 
       - run: gradle --stop
