@@ -1,5 +1,7 @@
 package echoserver;
 
+import infrastructure.Connection;
+
 import java.io.IOException;
 
 public class Echoer implements Echoable {

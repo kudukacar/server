@@ -1,0 +1,11 @@
+branch-defaults:
+  master:
+    environment: Server-env-1
+deploy:
+  artifact: build/libs/echoserver.jar
+global:
+  application_name: server
+  default_ec2_keyname: e-fts2bpcxsi
+  default_platform: Java 8 running on 64bit Amazon Linux/2.10.4
+  default_region: us-east-1
+  sc: git

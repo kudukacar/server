@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  build:
+  JUnit:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
@@ -43,6 +43,65 @@ jobs:
       # run tests!
       - run: gradle test
 
+  Spinach:
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+      - checkout
+
+      - run: echo ${CIRCLE_BRANCH}
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: gradle dependencies
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+
+      - run:
+          name: start server
+          command: gradle server
+          background: true
+
+      - run:
+          name: Install spinach dependencies
+          working_directory: ~/repo/http_server_spec
+          command: ../spinach.sh
+
+      - run:
+          command: |
+            until nc -z localhost 5000
+            do
+              sleep 5
+            done
+
+      - run:
+          name: Run acceptance tests
+          working_directory: ~/repo/http_server_spec
+          command: |
+            rake test:f1 || true
+
   deploy:
     working_directory: ~/repo
     docker:
@@ -64,10 +123,11 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run jar task
-      - run: gradle shadowJar
+      - run: gradle echoServer
+      - run: gradle httpServer
 
       - store_artifacts:
-          path: build/libs/server-1.0-SNAPSHOT-all.jar
+          path: build/libs
 
       - run:
           name: Installing deployment dependencies
@@ -81,16 +141,21 @@ jobs:
       - run:
           name: Deploying
           command: |
+            cat httpserver.yml >> .elasticbeanstalk/config.yml
+            eb deploy HttpServer-env
+            > .elasticbeanstalk/config.yml
+            cat echoserver.yml >> .elasticbeanstalk/config.yml
             eb deploy Server-env-1
 
 workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build
+      - JUnit
+      - Spinach
       - deploy:
           requires:
-            - build
+            - JUnit
           filters:
             branches:
               only:

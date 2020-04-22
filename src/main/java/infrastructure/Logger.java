@@ -1,8 +1,8 @@
-package echoserver;
+package infrastructure;
 
 import java.io.PrintStream;
 
-public class Logger implements Loggable{
+public class Logger implements Loggable {
     private final PrintStream out;
 
     public Logger(PrintStream out) {
