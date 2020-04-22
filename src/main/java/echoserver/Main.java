@@ -2,6 +2,7 @@ package echoserver;
 
 import infrastructure.Listener;
 import infrastructure.Logger;
+import infrastructure.Server;
 
 import java.net.ServerSocket;
 import java.util.concurrent.Executor;
@@ -16,7 +17,7 @@ public class Main {
         Echoer echoer = new Echoer(welcomeMessage);
 
         try(Listener listener = new Listener(serverSocket);) {
-            new EchoServer(listener, executor, echoer, logger).start();
+            new Server(listener, executor, echoer, logger).start();
         }
     }
 }

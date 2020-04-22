@@ -15,7 +15,7 @@ class EchoerTest {
         Echoer echoer = new Echoer("Welcome");
         ArrayList<String> input = new ArrayList<String>(Arrays.asList("This", "Should", "be", "echoed"));
         TestConnection connection = new TestConnection(input);
-        echoer.echo(connection);
+        echoer.respond(connection);
 
         assertEquals(Arrays.asList("Welcome", "This", "Should", "be", "echoed"), connection.written);
     }

@@ -1,9 +1,7 @@
-package echoserver;
-
-import infrastructure.Connection;
+package infrastructure;
 
 import java.io.IOException;
 
-public interface Echoable {
-    void echo(Connection connection) throws IOException;
+public interface Respondable {
+    void respond(Connection connection) throws IOException;
 }
