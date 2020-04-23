@@ -19,8 +19,8 @@ public class SocketConnection implements Connection {
 
     @Override
     public void write(String output) throws IOException {
-        String formattedOutput = output + "\n";
-        socket.getOutputStream().write(formattedOutput.getBytes());
+        socket.getOutputStream().write(output.getBytes());
+        socket.getOutputStream().flush();
     }
 
     @Override

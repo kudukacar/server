@@ -25,7 +25,7 @@ class SocketConnectionTest {
 
         socketConnection.write(input);
 
-        assertEquals(input + "\n", socket.getOutputStream().toString());
+        assertEquals(input, socket.getOutputStream().toString());
     }
 
     @Test

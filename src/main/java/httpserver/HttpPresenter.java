@@ -6,7 +6,7 @@ public class HttpPresenter implements Presentable{
         String responseLine = "HTTP/1.1 405 Method Not Allowed" + System.lineSeparator();
         String header = "Allow: HEAD, OPTIONS" + System.lineSeparator();
         String blankLine = System.lineSeparator();
-        String body = "";
+        String body = new String(new byte[0]);
         return responseLine + header + blankLine + body;
     }
 }

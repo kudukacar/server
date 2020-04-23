@@ -16,7 +16,7 @@ public class Echoer implements Respondable {
         String input;
         connection.write(this.message);
         while ((input = connection.read()) != null) {
-            connection.write(input);
+            connection.write(input + System.lineSeparator());
         }
     }
 }
