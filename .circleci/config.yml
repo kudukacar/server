@@ -100,7 +100,7 @@ jobs:
           name: Run acceptance tests
           working_directory: ~/repo/http_server_spec
           command: |
-            rake test:f1 || true
+            bundle exec spinach features/01_getting_started/method_not_allowed.feature
 
   deploy:
     working_directory: ~/repo
@@ -141,10 +141,9 @@ jobs:
       - run:
           name: Deploying
           command: |
-            cat httpserver.yml >> .elasticbeanstalk/config.yml
+            cat httpserver.yml > .elasticbeanstalk/config.yml
             eb deploy HttpServer-env
-            > .elasticbeanstalk/config.yml
-            cat echoserver.yml >> .elasticbeanstalk/config.yml
+            cat echoserver.yml > .elasticbeanstalk/config.yml
             eb deploy Server-env-1
 
 workflows:

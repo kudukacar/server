@@ -3,6 +3,10 @@ package httpserver;
 public class HttpPresenter implements Presentable{
 
     public String present() {
-        return "HTTP/1.1 405 Method Not Allowed" + System.lineSeparator() + "Allow: HEAD, OPTIONS" + System.lineSeparator();
+        String responseLine = "HTTP/1.1 405 Method Not Allowed" + System.lineSeparator();
+        String header = "Allow: HEAD, OPTIONS" + System.lineSeparator();
+        String blankLine = System.lineSeparator();
+        String body = "";
+        return responseLine + header + blankLine + body;
     }
 }

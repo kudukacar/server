@@ -11,7 +11,7 @@ class HttpResponderTest {
 
     @Test
     void itRespondsToAnHttpRequest() throws IOException {
-        String expectedResponse = "HTTP/1.1 200 Ok\n";
+        String expectedResponse = "HTTP/1.1 200 Ok" + System.lineSeparator();
         Presentable presenter = new SimpleHttpResponsePresenter(expectedResponse);
         HttpResponder responder = new HttpResponder(presenter);
         TestConnection connection = new TestConnection();

@@ -15,5 +15,6 @@ public class HttpResponder implements Respondable {
     @Override
     public void respond(Connection connection) throws IOException {
         connection.write(presenter.present());
+        connection.close();
     }
 }
