@@ -20,15 +20,14 @@ public class SocketConnection implements Connection {
     @Override
     public void write(String output) throws IOException {
         socket.getOutputStream().write(output.getBytes());
-        socket.getOutputStream().flush();
     }
 
     @Override
     public void close() throws IOException {
-        this.socket.close();
+        this.socket.shutdownOutput();
     }
 
     public boolean isClosed() {
-        return this.socket.isClosed();
+        return this.socket.isOutputShutdown();
     }
 }

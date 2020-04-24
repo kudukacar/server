@@ -9,5 +9,5 @@ public interface Connection extends AutoCloseable{
 
     public void close() throws IOException;
 
-    public boolean isClosed();
+    public boolean isClosed() throws IOException;
 }

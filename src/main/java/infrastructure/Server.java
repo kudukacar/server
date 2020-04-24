@@ -16,7 +16,7 @@ public class Server {
         this.logger = logger;
     }
 
-    public void start() throws Exception {
+    public void start() throws IOException {
         Connection socketConnection;
         while((socketConnection = this.listener.listen()) != null) {
             Runnable runnable = runnable(socketConnection);
@@ -29,7 +29,7 @@ public class Server {
             try (Connection socketConnection = connection) {
                 this.responder.respond(socketConnection);
             } catch (IOException e) {
-                this.logger.log("Failed to read from or write to the socket connection: " + e);
+                this.logger.log("Failed to read from or write to the socket connection: " + e.getMessage());
             }
         };
         return runnable;

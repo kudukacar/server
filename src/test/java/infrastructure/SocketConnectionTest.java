@@ -29,7 +29,7 @@ class SocketConnectionTest {
     }
 
     @Test
-    void itClosesConnection() throws IOException {
+    void itClosesTheOutputChannel() throws IOException {
         Socket socket = new FakeSocket("Connected");
         SocketConnection socketConnection = new SocketConnection(socket);
 
@@ -39,7 +39,7 @@ class SocketConnectionTest {
     }
 
     @Test
-    void itReturnsFalseWhenConnectionIsOpen() {
+    void itReturnsFalseWhenOutputConnectionIsOpen() {
         Socket socket = new FakeSocket("Connected");
         SocketConnection socketConnection = new SocketConnection(socket);
 
@@ -50,6 +50,7 @@ class SocketConnectionTest {
 
         private final ByteArrayOutputStream output;
         private final ByteArrayInputStream input;
+        public boolean outputClosed;
 
         public FakeSocket(String input) {
             this.output = new ByteArrayOutputStream();
@@ -64,6 +65,15 @@ class SocketConnectionTest {
         @Override
         public InputStream getInputStream() {
             return this.input;
+        }
+
+        @Override
+        public void shutdownOutput() {
+            outputClosed = true;
+        }
+
+        public boolean isOutputShutdown() {
+            return outputClosed;
         }
     }
 }
