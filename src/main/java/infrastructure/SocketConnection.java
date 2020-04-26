@@ -19,16 +19,15 @@ public class SocketConnection implements Connection {
 
     @Override
     public void write(String output) throws IOException {
-        String formattedOutput = output + "\n";
-        socket.getOutputStream().write(formattedOutput.getBytes());
+        socket.getOutputStream().write(output.getBytes());
     }
 
     @Override
     public void close() throws IOException {
-        this.socket.close();
+        this.socket.shutdownOutput();
     }
 
     public boolean isClosed() {
-        return this.socket.isClosed();
+        return this.socket.isOutputShutdown();
     }
 }

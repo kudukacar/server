@@ -1,8 +1,5 @@
-package echoserver;
+package infrastructure;
 
-import infrastructure.Connection;
-import infrastructure.Listenable;
-import infrastructure.Loggable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +11,8 @@ import java.util.concurrent.Executor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class EchoServerTest {
-    Echoable echoer;
+class ServerTest {
+    Respondable echoer;
     TestConnection firstConnection;
     TestConnection secondConnection;
     TestConnection thirdConnection;
@@ -23,7 +20,7 @@ class EchoServerTest {
     FakeListener listener;
     SerialExecutor executor;
     ErrorLogger logger;
-    EchoServer echoServer;
+    Server server;
 
     @BeforeEach
     void setUp() {
@@ -39,9 +36,9 @@ class EchoServerTest {
     @Test
     void itHandlesMultipleConnections() throws Exception {
         echoer = new EchoOnlyOnce();
-        echoServer = new EchoServer(listener, executor, echoer, logger);
+        server = new Server(listener, executor, echoer, logger);
 
-        echoServer.start();
+        server.start();
 
         assertEquals(Arrays.asList(firstConnection, secondConnection, thirdConnection),listener.connectedClients);
     }
@@ -49,9 +46,9 @@ class EchoServerTest {
     @Test
     void itExecutesTheRunnableForEachConnection() throws Exception {
         echoer = new EchoOnlyOnce();
-        echoServer = new EchoServer(listener, executor, echoer, logger);
+        server = new Server(listener, executor, echoer, logger);
 
-        echoServer.start();
+        server.start();
 
         assertEquals(Arrays.asList("executed", "executed", "executed"), executor.executed);
     }
@@ -59,9 +56,9 @@ class EchoServerTest {
     @Test
     void itEchoesEachConnection() throws Exception {
         echoer = new EchoOnlyOnce();
-        echoServer = new EchoServer(listener, executor, echoer, logger);
+        server = new Server(listener, executor, echoer, logger);
 
-        echoServer.start();
+        server.start();
 
         assertEquals("echoechoecho", firstConnection.writes + secondConnection.writes + thirdConnection.writes);
     }
@@ -69,9 +66,9 @@ class EchoServerTest {
     @Test
     void itLogsAMessageWhenAnExceptionIsRaised() throws Exception {
         echoer = new ExceptionalEchoer();
-        echoServer = new EchoServer(listener, executor, echoer, logger);
+        server = new Server(listener, executor, echoer, logger);
 
-        echoServer.start();
+        server.start();
 
         assertTrue(logger.logged.contains("read"));
     }
@@ -79,9 +76,9 @@ class EchoServerTest {
     @Test
     void itClosesTheConnection() throws Exception {
         echoer = new EchoOnlyOnce();
-        echoServer = new EchoServer(listener, executor, echoer, logger);
+        server = new Server(listener, executor, echoer, logger);
 
-        echoServer.start();
+        server.start();
 
         assertTrue(firstConnection.isClosed());
     }
@@ -113,16 +110,16 @@ class EchoServerTest {
         }
     }
 
-    private class EchoOnlyOnce implements Echoable {
+    private class EchoOnlyOnce implements Respondable {
         @Override
-        public void echo(Connection connection) throws IOException {
+        public void respond(Connection connection) throws IOException {
             connection.write("echo");
         }
     }
 
-    private class ExceptionalEchoer implements Echoable {
+    private class ExceptionalEchoer implements Respondable {
         @Override
-        public void echo(Connection connection) throws IOException {
+        public void respond(Connection connection) throws IOException {
             throw new IOException("Unable to echo.");
         }
     }

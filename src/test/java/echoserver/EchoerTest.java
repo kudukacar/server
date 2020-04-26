@@ -12,12 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class EchoerTest {
     @Test
     void itEchosTextAfterWelcomingTheUser() throws IOException {
-        Echoer echoer = new Echoer("Welcome");
+        Echoer echoer = new Echoer("Welcome\n");
         ArrayList<String> input = new ArrayList<String>(Arrays.asList("This", "Should", "be", "echoed"));
         TestConnection connection = new TestConnection(input);
-        echoer.echo(connection);
+        echoer.respond(connection);
 
-        assertEquals(Arrays.asList("Welcome", "This", "Should", "be", "echoed"), connection.written);
+        assertEquals(Arrays.asList("Welcome\n", "This\n", "Should\n", "be\n", "echoed\n"), connection.written);
     }
 
     private class TestConnection implements Connection {
