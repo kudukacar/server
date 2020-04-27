@@ -90,6 +90,7 @@ jobs:
           command: ../spinach.sh
 
       - run:
+          name: Verify server
           command: |
             until nc -z localhost 5000
             do
