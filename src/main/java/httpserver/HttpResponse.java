@@ -28,7 +28,7 @@ public class HttpResponse {
         return this.headers;
     }
 
-    public void setHeaders(String header) {
-        this.headers.add(header);
+    public void setHeaders(List<String> headers) {
+        this.headers = headers;
     }
 }

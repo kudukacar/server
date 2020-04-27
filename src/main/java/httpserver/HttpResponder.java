@@ -8,7 +8,7 @@ import java.io.IOException;
 public class HttpResponder implements Respondable {
     private final Router router;
     private final Parseable parser;
-    private Presentable presenter;
+    private final Presentable presenter;
 
     public HttpResponder(Parseable parser, Router router, Presentable presenter) {
         this.parser = parser;

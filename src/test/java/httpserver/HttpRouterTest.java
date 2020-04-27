@@ -2,6 +2,9 @@ package httpserver;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
@@ -23,7 +26,7 @@ class HttpRouterTest {
         HttpRouter httpRouter = new HttpRouter(new GetWithABody(), new GetWithNoBody(), new NonRouteable());
         HttpResponse expectedResponse = new HttpResponse();
         expectedResponse.setResponseLine("405 Method Not Allowed");
-        expectedResponse.setHeaders("Allow: HEAD, OPTIONS");
+        expectedResponse.setHeaders(new ArrayList<String>(Arrays.asList("Allow: HEAD, OPTIONS")));
 
         assertThat(expectedResponse, samePropertyValuesAs(httpRouter.route(path)));
     }
@@ -49,7 +52,7 @@ class HttpRouterTest {
         public HttpResponse act() {
             HttpResponse response = new HttpResponse();
             response.setResponseLine("405 Method Not Allowed");
-            response.setHeaders("Allow: HEAD, OPTIONS");
+            response.setHeaders(new ArrayList<String>(Arrays.asList("Allow: HEAD, OPTIONS")));
             return response;
         }
     }

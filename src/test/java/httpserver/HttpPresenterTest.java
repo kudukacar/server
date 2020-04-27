@@ -2,6 +2,9 @@ package httpserver;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HttpPresenterTest {
@@ -25,7 +28,7 @@ class HttpPresenterTest {
         HttpPresenter presenter = new HttpPresenter();
         HttpResponse response = new HttpResponse();
         response.setResponseLine("405 Method Not Allowed");
-        response.setHeaders("Allow: HEAD, OPTIONS");
+        response.setHeaders(new ArrayList<String>(Arrays.asList("Allow: HEAD, OPTIONS")));
 
         String formattedResponse = (
                 "HTTP/1.1 405 Method Not Allowed" +
