@@ -87,7 +87,7 @@ jobs:
       - run:
           name: Install spinach dependencies
           working_directory: ~/repo/http_server_spec
-          command: ../spinach.sh
+          command: ../spinachdependencies.sh
 
       - run:
           name: Verify server
@@ -100,9 +100,7 @@ jobs:
       - run:
           name: Run acceptance tests
           working_directory: ~/repo/http_server_spec
-          command: |
-            bundle exec spinach features/01_getting_started/method_not_allowed.feature \
-            features/01_getting_started/simple_get.feature
+          command: ../spinachtests.sh
 
   deploy:
     working_directory: ~/repo
