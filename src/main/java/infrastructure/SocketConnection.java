@@ -25,9 +25,10 @@ public class SocketConnection implements Connection {
     @Override
     public void close() throws IOException {
         this.socket.shutdownOutput();
+        this.socket.shutdownInput();
     }
 
     public boolean isClosed() {
-        return this.socket.isOutputShutdown();
+        return this.socket.isOutputShutdown() && this.socket.isInputShutdown();
     }
 }
