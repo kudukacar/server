@@ -14,9 +14,9 @@ class HttpResponderTest {
         String request = "GET /hello_world HTTP/1.1" + System.lineSeparator();
         String expectedResponse = "HTTP/1.1 200 Ok" + System.lineSeparator();
         Parseable parser = new SimpleHttpParser();
-        Controller controller = new SimpleHttpController();
+        Router router = new SimpleHttpRouter();
         Presentable presenter = new SimpleHttpResponsePresenter();
-        HttpResponder responder = new HttpResponder(parser, controller, presenter);
+        HttpResponder responder = new HttpResponder(parser, router, presenter);
         TestConnection connection = new TestConnection(request);
 
         responder.respond(connection);
@@ -58,7 +58,7 @@ class HttpResponderTest {
 
         @Override
         public String present(HttpResponse response) {
-            return response.responseLine + System.lineSeparator();
+            return response.getResponseLine() + System.lineSeparator();
         }
     }
 
@@ -66,17 +66,14 @@ class HttpResponderTest {
 
         @Override
         public String parse(String request) {
-            String[] splitRequest = request.split(" ");
-            return splitRequest[1];
+            return request;
         }
     }
 
-    private class SimpleHttpController implements Controller{
-        public HttpResponse control(String request) {
+    private class SimpleHttpRouter implements Router {
+        public HttpResponse route(String request) {
             HttpResponse response = new HttpResponse();
-            if(request.equals("/hello_world")) {
-                response.responseLine += "200 Ok";
-            }
+            response.setResponseLine("200 Ok");
             return response;
         }
     }

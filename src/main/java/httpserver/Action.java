@@ -1,5 +1,5 @@
 package httpserver;
 
-public interface Resource {
+public interface Action {
     HttpResponse act();
 }

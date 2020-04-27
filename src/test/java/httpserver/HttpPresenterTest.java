@@ -9,41 +9,49 @@ class HttpPresenterTest {
     void itFormatsAnHttpResponseWithOnlyAResponseLine() {
         HttpPresenter presenter = new HttpPresenter();
         HttpResponse response = new HttpResponse();
-        response.responseLine += "200 Ok";
-        String responseLine = "HTTP/1.1 200 Ok" + System.lineSeparator();
-        String header = System.lineSeparator();
-        String body = "";
-        String formattedResponse = responseLine + header + body;
+        response.setResponseLine("200 Ok");
 
-        assertEquals(presenter.present(response), formattedResponse);
+        String formattedResponse = (
+                "HTTP/1.1 200 Ok" +
+                        System.lineSeparator() +
+                        System.lineSeparator()
+                );
+
+        assertEquals(formattedResponse, presenter.present(response));
     }
 
     @Test
     void itFormatsAnHttpResponseWithAHeader() {
         HttpPresenter presenter = new HttpPresenter();
         HttpResponse response = new HttpResponse();
-        response.responseLine += "405 Method Not Allowed";
-        response.headers.add("Allow: HEAD, OPTIONS");
-        String responseLine = "HTTP/1.1 405 Method Not Allowed" + System.lineSeparator();
-        String header = "Allow: HEAD, OPTIONS" + System.lineSeparator();
-        String blankLine = System.lineSeparator();
-        String body = "";
-        String formattedResponse = responseLine + header + blankLine + body;
+        response.setResponseLine("405 Method Not Allowed");
+        response.setHeaders("Allow: HEAD, OPTIONS");
 
-        assertEquals(presenter.present(response), formattedResponse);
+        String formattedResponse = (
+                "HTTP/1.1 405 Method Not Allowed" +
+                        System.lineSeparator() +
+                        "Allow: HEAD, OPTIONS" +
+                        System.lineSeparator() +
+                        System.lineSeparator()
+                );
+
+        assertEquals(formattedResponse, presenter.present(response));
     }
 
     @Test
     void itFormatsAnHttpResponseWithABody() {
         HttpPresenter presenter = new HttpPresenter();
         HttpResponse response = new HttpResponse();
-        response.responseLine += "200 Ok";
-        response.body = "Hello world";
-        String responseLine = "HTTP/1.1 200 Ok" + System.lineSeparator();
-        String header = System.lineSeparator();
-        String body = "Hello world";
-        String formattedResponse = responseLine + header + body;
+        response.setResponseLine("200 Ok");
+        response.setBody("Hello world");
 
-        assertEquals(presenter.present(response), formattedResponse);
+        String formattedResponse = (
+                "HTTP/1.1 200 Ok" +
+                        System.lineSeparator() +
+                        System.lineSeparator() +
+                        "Hello world"
+                );
+
+        assertEquals(formattedResponse, presenter.present(response));
     }
 }
