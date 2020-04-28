@@ -6,14 +6,22 @@ import infrastructure.Respondable;
 import java.io.IOException;
 
 public class HttpResponder implements Respondable {
-    private Presentable presenter;
+    private final Router router;
+    private final Parseable parser;
+    private final Presentable presenter;
 
-    public HttpResponder(Presentable presenter) {
+    public HttpResponder(Parseable parser, Router router, Presentable presenter) {
+        this.parser = parser;
+        this.router = router;
         this.presenter = presenter;
     }
 
     @Override
     public void respond(Connection connection) throws IOException {
-        connection.write(presenter.present());
+        String input = connection.read();
+        String parsedInput = parser.parse(input);
+        HttpResponse response = router.route(parsedInput);
+        String formattedResponse = presenter.present(response);
+        connection.write(formattedResponse);
     }
 }

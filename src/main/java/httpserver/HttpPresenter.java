@@ -2,11 +2,19 @@ package httpserver;
 
 public class HttpPresenter implements Presentable{
 
-    public String present() {
-        String responseLine = "HTTP/1.1 405 Method Not Allowed" + System.lineSeparator();
-        String header = "Allow: HEAD, OPTIONS" + System.lineSeparator();
-        String blankLine = System.lineSeparator();
-        String body = "";
-        return responseLine + header + blankLine + body;
+    public String present(HttpResponse response) {
+        String responseLine = response.getResponseLine() + System.lineSeparator();
+        String body = response.getBody();
+        return responseLine + headers(response) + body;
+    }
+
+    private String headers(HttpResponse response) {
+        if(response.getHeaders().isEmpty()) {
+            return System.lineSeparator();
+        } else {
+            return String.join(System.lineSeparator(),response.getHeaders()) +
+                    System.lineSeparator() +
+                    System.lineSeparator();
+        }
     }
 }

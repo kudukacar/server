@@ -1,6 +1,5 @@
 package httpserver;
 
 public interface Presentable {
-
-    String present();
+    String present(HttpResponse response);
 }

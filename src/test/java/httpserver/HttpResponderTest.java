@@ -11,22 +11,30 @@ class HttpResponderTest {
 
     @Test
     void itRespondsToAnHttpRequest() throws IOException {
+        String request = "GET /hello_world HTTP/1.1" + System.lineSeparator();
         String expectedResponse = "HTTP/1.1 200 Ok" + System.lineSeparator();
-        Presentable presenter = new SimpleHttpResponsePresenter(expectedResponse);
-        HttpResponder responder = new HttpResponder(presenter);
-        TestConnection connection = new TestConnection();
+        Parseable parser = new SimpleHttpParser();
+        Router router = new SimpleHttpRouter();
+        Presentable presenter = new SimpleHttpResponsePresenter();
+        HttpResponder responder = new HttpResponder(parser, router, presenter);
+        TestConnection connection = new TestConnection(request);
 
         responder.respond(connection);
 
-        assertEquals(connection.written, expectedResponse);
+        assertEquals(expectedResponse, connection.written);
     }
 
     private class TestConnection implements Connection {
+        private final String request;
         public String written;
+
+        public TestConnection(String request) {
+            this.request = request;
+        }
 
         @Override
         public String read() throws IOException {
-            return null;
+            return this.request;
         }
 
         @Override
@@ -48,12 +56,24 @@ class HttpResponderTest {
     private class SimpleHttpResponsePresenter implements Presentable {
         private String response;
 
-        public SimpleHttpResponsePresenter(String response) {
-            this.response = response;
+        @Override
+        public String present(HttpResponse response) {
+            return response.getResponseLine() + System.lineSeparator();
         }
+    }
+
+    private class SimpleHttpParser implements Parseable {
 
         @Override
-        public String present() {
+        public String parse(String request) {
+            return request;
+        }
+    }
+
+    private class SimpleHttpRouter implements Router {
+        public HttpResponse route(String request) {
+            HttpResponse response = new HttpResponse();
+            response.setResponseLine("200 Ok");
             return response;
         }
     }
