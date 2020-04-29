@@ -2,8 +2,6 @@ package httpserver;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,11 +22,9 @@ class HttpRouterTest {
                 {method, new GetWithNoBody()},
         }).collect(Collectors.toMap(entries -> (String) entries[0], entries -> (Action) entries[1])));
 
-        Map<String, String> request = new HashMap<>();
-        request.put("path", path);
-        request.put("method", method);
+        HttpRequest request = new HttpRequest(method, path);
 
-        HttpResponse expectedResponse = new HttpResponse.HttpResponseBuilder("200 Ok").build();
+        HttpResponse expectedResponse = new HttpResponse.Builder("200 Ok").build();
         HttpRouter httpRouter = new HttpRouter(routes, new NonRouteable());
 
         assertThat(expectedResponse, samePropertyValuesAs(httpRouter.route(request)));
@@ -43,12 +39,10 @@ class HttpRouterTest {
                 {"GET", new GetWithNoBody()},
         }).collect(Collectors.toMap(entries -> (String) entries[0], entries -> (Action) entries[1])));
 
-        Map<String, String> request = new HashMap<>();
-        request.put("path", path);
-        request.put("method", "HEAD");
+        HttpRequest request = new HttpRequest("HEAD", path);
 
-        HttpResponse expectedResponse = new HttpResponse.HttpResponseBuilder("405 Method Not Allowed")
-                .headers(new ArrayList<String>(Collections.singletonList("Allow: HEAD, OPTIONS")))
+        HttpResponse expectedResponse = new HttpResponse.Builder("405 Method Not Allowed")
+                .addHeader("Allow: HEAD, OPTIONS")
                 .build();
 
         HttpRouter httpRouter = new HttpRouter(routes, new NonRouteable());
@@ -58,14 +52,14 @@ class HttpRouterTest {
 
     private static class GetWithNoBody implements Action {
         public HttpResponse act() {
-            return new HttpResponse.HttpResponseBuilder("200 Ok").build();
+            return new HttpResponse.Builder("200 Ok").build();
         }
     }
 
     private static class NonRouteable implements Action {
         public HttpResponse act() {
-            return new HttpResponse.HttpResponseBuilder("405 Method Not Allowed")
-                    .headers(new ArrayList<String>(Collections.singletonList("Allow: HEAD, OPTIONS")))
+            return new HttpResponse.Builder("405 Method Not Allowed")
+                    .addHeader("Allow: HEAD, OPTIONS")
                     .build();
         }
     }

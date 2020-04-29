@@ -11,7 +11,7 @@ class SimpleGetWithBodyTest {
     @Test
     void ItReturnsAnHttpResponseWithStatus200AndBodyHelloworld() {
         Action action = new SimpleGetWithBody();
-        HttpResponse response = new HttpResponse.HttpResponseBuilder("200 Ok")
+        HttpResponse response = new HttpResponse.Builder("200 Ok")
                 .body("Hello world")
                 .build();
 

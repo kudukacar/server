@@ -4,8 +4,6 @@ import infrastructure.Connection;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -64,17 +62,15 @@ class HttpResponderTest {
 
     private static class SimpleHttpParser implements Parseable {
         @Override
-        public Map<String, String> parse(String request) {
-            Map<String, String> parsedRequest = new HashMap<>();
-            parsedRequest.put("request", request);
-            return parsedRequest;
+        public HttpRequest parse(String request) {
+            return new HttpRequest(request, request);
         }
     }
 
     private static class SimpleHttpRouter implements Routeable {
-        public HttpResponse route(Map<String, String> request) {
-            if(request.containsKey("request")) {
-                return new HttpResponse.HttpResponseBuilder("200 Ok").build();
+        public HttpResponse route(HttpRequest request) {
+            if(request.getMethod().equals(request.getPath())) {
+                return new HttpResponse.Builder("200 Ok").build();
             } else {
                 return null;
             }

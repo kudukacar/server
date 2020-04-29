@@ -2,10 +2,8 @@ package httpserver;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 class HttpParserTest {
     @Test
@@ -23,10 +21,8 @@ class HttpParserTest {
                         "Hello world"
         );
 
-        Map<String, String> expectedRequest = new HashMap<>();
-        expectedRequest.put("path", "/hello_world");
-        expectedRequest.put("method", "GET");
+        HttpRequest expectedRequest = new HttpRequest("GET", "/hello_world");
 
-        assertEquals(expectedRequest, httpParser.parse(request));
+        assertThat(expectedRequest, samePropertyValuesAs(httpParser.parse(request)));
     }
 }

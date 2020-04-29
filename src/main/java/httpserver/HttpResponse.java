@@ -1,5 +1,6 @@
 package httpserver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HttpResponse {
@@ -7,8 +8,8 @@ public class HttpResponse {
     private final String body;
     private final List<String> headers;
 
-    private HttpResponse(HttpResponseBuilder builder) {
-        this.responseLine = "HTTP/1.1 " + builder.responseLine;
+    private HttpResponse(Builder builder) {
+        this.responseLine = "HTTP/1.1 " + builder.status;
         this.body = builder.body;
         this.headers = builder.headers;
     }
@@ -25,20 +26,20 @@ public class HttpResponse {
         return this.headers;
     }
 
-    public static class HttpResponseBuilder {
-        private final String responseLine;
-        private String body;
-        private List<String> headers;
+    public static class Builder {
+        private final String status;
+        private String body = "";
+        private List<String> headers = new ArrayList<>();
 
-        public HttpResponseBuilder(String responseLine) {
-            this.responseLine = responseLine;
+        public Builder(String status) {
+            this.status = status;
         }
-        public HttpResponseBuilder body(String body) {
+        public Builder body(String body) {
             this.body = body;
             return this;
         }
-        public HttpResponseBuilder headers(List<String> headers) {
-            this.headers = headers;
+        public Builder addHeader(String header) {
+            this.headers.add(header);
             return this;
         }
         public HttpResponse build() {

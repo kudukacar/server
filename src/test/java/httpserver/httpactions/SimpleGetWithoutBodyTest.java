@@ -11,7 +11,7 @@ class SimpleGetWithoutBodyTest {
     @Test
     void ItReturnsAnHttpResponseWithStatus200AndEmptyBody() {
         Action action = new SimpleGetWithoutBody();
-        HttpResponse response = new HttpResponse.HttpResponseBuilder("200 Ok")
+        HttpResponse response = new HttpResponse.Builder("200 Ok")
                 .build();
 
         assertThat(response, samePropertyValuesAs(action.act()));

@@ -12,9 +12,9 @@ public class HttpRouter implements Routeable {
         this.methodNotAllowed = methodNotAllowed;
     }
 
-    public HttpResponse route(Map<String, String> request) {
-        String path = request.get("path");
-        String method = request.get("method");
+    public HttpResponse route(HttpRequest request) {
+        String path = request.getPath();
+        String method = request.getMethod();
         if(routes.containsKey(path)) {
             return routes.get(path).getOrDefault(method, methodNotAllowed).act();
         } else {

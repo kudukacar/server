@@ -2,16 +2,13 @@ package httpserver;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HttpPresenterTest {
     @Test
     void itFormatsAnHttpResponseWithOnlyAResponseLine() {
         HttpPresenter presenter = new HttpPresenter();
-        HttpResponse response = new HttpResponse.HttpResponseBuilder("200 Ok").build();
+        HttpResponse response = new HttpResponse.Builder("200 Ok").build();
 
         String formattedResponse = (
                 "HTTP/1.1 200 Ok" +
@@ -25,8 +22,8 @@ class HttpPresenterTest {
     @Test
     void itFormatsAnHttpResponseWithAHeader() {
         HttpPresenter presenter = new HttpPresenter();
-        HttpResponse response = new HttpResponse.HttpResponseBuilder("405 Method Not Allowed")
-                .headers(new ArrayList<String>(Collections.singletonList("Allow: HEAD, OPTIONS")))
+        HttpResponse response = new HttpResponse.Builder("405 Method Not Allowed")
+                .addHeader("Allow: HEAD, OPTIONS")
                 .build();
 
         String formattedResponse = (
@@ -43,7 +40,7 @@ class HttpPresenterTest {
     @Test
     void itFormatsAnHttpResponseWithABody() {
         HttpPresenter presenter = new HttpPresenter();
-        HttpResponse response = new HttpResponse.HttpResponseBuilder("200 Ok")
+        HttpResponse response = new HttpResponse.Builder("200 Ok")
                 .body("Hello world")
                 .build();
 

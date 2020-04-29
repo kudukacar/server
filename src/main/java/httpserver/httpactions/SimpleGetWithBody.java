@@ -7,7 +7,7 @@ public class SimpleGetWithBody implements Action {
 
     @Override
     public HttpResponse act() {
-        return new HttpResponse.HttpResponseBuilder("200 Ok")
+        return new HttpResponse.Builder("200 Ok")
                 .body("Hello world")
                 .build();
     }

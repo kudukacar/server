@@ -8,12 +8,9 @@ import infrastructure.Logger;
 import infrastructure.Server;
 
 import java.net.ServerSocket;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -25,18 +22,15 @@ public class Main {
 
         String GET = "GET";
         String HEAD = "HEAD";
-        Map<String, Map<String, Action>> routes = new HashMap<>();
+        String simple_get = "/simple_get";
 
-        routes.put("/simple_get", Stream.of(new Object[][] {
-                {GET, new SimpleGetWithoutBody()},
-                {HEAD, new SimpleGetWithoutBody()},
-        }).collect(Collectors.toMap(entries -> (String) entries[0], entries -> (Action) entries[1])));
-        routes.put("/simple_get_with_body", Stream.of(new Object[][] {
-                {GET, new SimpleGetWithBody()},
-        }).collect(Collectors.toMap(entries -> (String) entries[0], entries -> (Action) entries[1])));
-        routes.put("/head_request", Stream.of(new Object[][] {
-                {HEAD, new SimpleGetWithoutBody()},
-        }).collect(Collectors.toMap(entries -> (String) entries[0], entries -> (Action) entries[1])));
+        Map<String, Map<String, Action>> routes = new HttpRoutes.Builder()
+                .addRoute(simple_get, GET, new SimpleGetWithoutBody())
+                .addRoute(simple_get, HEAD, new SimpleGetWithoutBody())
+                .addRoute("/simple_get_with_body", GET, new SimpleGetWithBody())
+                .addRoute("/head_request", HEAD, new SimpleGetWithoutBody())
+                .build()
+                .getRoutes();
 
         HttpRouter router = new HttpRouter(routes, new MethodNotAllowed());
         HttpResponder responder = new HttpResponder(parser, router, presenter);
