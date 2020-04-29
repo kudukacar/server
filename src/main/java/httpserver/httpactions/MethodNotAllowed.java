@@ -9,9 +9,8 @@ import java.util.Arrays;
 public class MethodNotAllowed implements Action {
     @Override
     public HttpResponse act() {
-        HttpResponse response = new HttpResponse();
-        response.setResponseLine("405 Method Not Allowed");
-        response.setHeaders(new ArrayList<String>(Arrays.asList("Allow: HEAD, OPTIONS")));
-        return response;
+        return new HttpResponse.HttpResponseBuilder("405 Method Not Allowed")
+                .headers(new ArrayList<String>(Arrays.asList("Allow: HEAD, OPTIONS")))
+                .build();
     }
 }

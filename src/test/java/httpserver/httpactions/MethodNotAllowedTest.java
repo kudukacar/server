@@ -14,9 +14,9 @@ class MethodNotAllowedTest {
     @Test
     void ItReturnsAnHttpResponseWithStatus405AndAllowHeaders() {
         Action action = new MethodNotAllowed();
-        HttpResponse response = new HttpResponse();
-        response.setResponseLine("405 Method Not Allowed");
-        response.setHeaders(new ArrayList<String>(Arrays.asList("Allow: HEAD, OPTIONS")));
+        HttpResponse response = new HttpResponse.HttpResponseBuilder("405 Method Not Allowed")
+                .headers(new ArrayList<String>(Arrays.asList("Allow: HEAD, OPTIONS")))
+                .build();
 
         assertThat(response, samePropertyValuesAs(action.act()));
     }

@@ -1,5 +1,7 @@
 package httpserver;
 
+import java.util.Map;
+
 public interface Parseable {
-    String parse(String request);
+    Map<String, String> parse(String request);
 }

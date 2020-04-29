@@ -2,11 +2,14 @@ package httpserver;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HttpParserTest {
     @Test
-    void itParsesTheRequestLineOfAnHttpRequest() {
+    void itParsesTheHttpRequest() {
         HttpParser httpParser = new HttpParser();
 
         String request = (
@@ -20,8 +23,10 @@ class HttpParserTest {
                         "Hello world"
         );
 
-        String path = "/hello_world";
+        Map<String, String> expectedRequest = new HashMap<>();
+        expectedRequest.put("path", "/hello_world");
+        expectedRequest.put("method", "GET");
 
-        assertEquals(path, httpParser.parse(request));
+        assertEquals(expectedRequest, httpParser.parse(request));
     }
 }

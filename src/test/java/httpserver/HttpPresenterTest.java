@@ -3,7 +3,7 @@ package httpserver;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,8 +11,7 @@ class HttpPresenterTest {
     @Test
     void itFormatsAnHttpResponseWithOnlyAResponseLine() {
         HttpPresenter presenter = new HttpPresenter();
-        HttpResponse response = new HttpResponse();
-        response.setResponseLine("200 Ok");
+        HttpResponse response = new HttpResponse.HttpResponseBuilder("200 Ok").build();
 
         String formattedResponse = (
                 "HTTP/1.1 200 Ok" +
@@ -26,9 +25,9 @@ class HttpPresenterTest {
     @Test
     void itFormatsAnHttpResponseWithAHeader() {
         HttpPresenter presenter = new HttpPresenter();
-        HttpResponse response = new HttpResponse();
-        response.setResponseLine("405 Method Not Allowed");
-        response.setHeaders(new ArrayList<String>(Arrays.asList("Allow: HEAD, OPTIONS")));
+        HttpResponse response = new HttpResponse.HttpResponseBuilder("405 Method Not Allowed")
+                .headers(new ArrayList<String>(Collections.singletonList("Allow: HEAD, OPTIONS")))
+                .build();
 
         String formattedResponse = (
                 "HTTP/1.1 405 Method Not Allowed" +
@@ -44,9 +43,9 @@ class HttpPresenterTest {
     @Test
     void itFormatsAnHttpResponseWithABody() {
         HttpPresenter presenter = new HttpPresenter();
-        HttpResponse response = new HttpResponse();
-        response.setResponseLine("200 Ok");
-        response.setBody("Hello world");
+        HttpResponse response = new HttpResponse.HttpResponseBuilder("200 Ok")
+                .body("Hello world")
+                .build();
 
         String formattedResponse = (
                 "HTTP/1.1 200 Ok" +

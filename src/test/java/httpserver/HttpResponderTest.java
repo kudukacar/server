@@ -4,6 +4,8 @@ import infrastructure.Connection;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,7 +16,7 @@ class HttpResponderTest {
         String request = "GET /hello_world HTTP/1.1" + System.lineSeparator();
         String expectedResponse = "HTTP/1.1 200 Ok" + System.lineSeparator();
         Parseable parser = new SimpleHttpParser();
-        Router router = new SimpleHttpRouter();
+        Routeable router = new SimpleHttpRouter();
         Presentable presenter = new SimpleHttpResponsePresenter();
         HttpResponder responder = new HttpResponder(parser, router, presenter);
         TestConnection connection = new TestConnection(request);
@@ -24,7 +26,7 @@ class HttpResponderTest {
         assertEquals(expectedResponse, connection.written);
     }
 
-    private class TestConnection implements Connection {
+    private static class TestConnection implements Connection {
         private final String request;
         public String written;
 
@@ -53,28 +55,29 @@ class HttpResponderTest {
         }
     }
 
-    private class SimpleHttpResponsePresenter implements Presentable {
-        private String response;
-
+    private static class SimpleHttpResponsePresenter implements Presentable {
         @Override
         public String present(HttpResponse response) {
             return response.getResponseLine() + System.lineSeparator();
         }
     }
 
-    private class SimpleHttpParser implements Parseable {
-
+    private static class SimpleHttpParser implements Parseable {
         @Override
-        public String parse(String request) {
-            return request;
+        public Map<String, String> parse(String request) {
+            Map<String, String> parsedRequest = new HashMap<>();
+            parsedRequest.put("request", request);
+            return parsedRequest;
         }
     }
 
-    private class SimpleHttpRouter implements Router {
-        public HttpResponse route(String request) {
-            HttpResponse response = new HttpResponse();
-            response.setResponseLine("200 Ok");
-            return response;
+    private static class SimpleHttpRouter implements Routeable {
+        public HttpResponse route(Map<String, String> request) {
+            if(request.containsKey("request")) {
+                return new HttpResponse.HttpResponseBuilder("200 Ok").build();
+            } else {
+                return null;
+            }
         }
     }
 }
