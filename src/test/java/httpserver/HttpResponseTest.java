@@ -7,12 +7,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class HttpResponseTest {
     @Test
     void itCreatesAnHttpResponse() {
-        String status = "405 Method Not Allowed";
-        String responseLine = "HTTP/1.1 " + status;
+        String statusCode = "405";
+        String statusName =  "Method Not Allowed";
+        String responseLine = "HTTP/1.1 " + statusCode + " " + statusName;
         String header = "Allow: HEAD, OPTIONS";
         String body = "Method is not allowed";
 
-        HttpResponse response =  new HttpResponse.Builder(status)
+        HttpResponse response =  new HttpResponse.Builder()
+                .statusCode(statusCode)
+                .statusName(statusName)
                 .addHeader(header)
                 .body(body)
                 .build();

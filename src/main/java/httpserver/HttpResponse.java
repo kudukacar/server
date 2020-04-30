@@ -9,7 +9,7 @@ public class HttpResponse {
     private final List<String> headers;
 
     private HttpResponse(Builder builder) {
-        this.responseLine = "HTTP/1.1 " + builder.status;
+        this.responseLine = "HTTP/1.1 " + builder.statusCode + " " + builder.statusName;
         this.body = builder.body;
         this.headers = builder.headers;
     }
@@ -27,12 +27,18 @@ public class HttpResponse {
     }
 
     public static class Builder {
-        private final String status;
         private String body = "";
         private List<String> headers = new ArrayList<>();
+        private String statusCode;
+        private String statusName;
 
-        public Builder(String status) {
-            this.status = status;
+        public Builder statusCode (String statusCode) {
+            this.statusCode = statusCode;
+            return this;
+        }
+        public Builder statusName (String statusName) {
+            this.statusName = statusName;
+            return this;
         }
         public Builder body(String body) {
             this.body = body;

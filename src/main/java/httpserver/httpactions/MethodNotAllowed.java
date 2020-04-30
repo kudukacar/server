@@ -6,7 +6,9 @@ import httpserver.HttpResponse;
 public class MethodNotAllowed implements Action {
     @Override
     public HttpResponse act() {
-        return new HttpResponse.Builder("405 Method Not Allowed")
+        return new HttpResponse.Builder()
+                .statusCode("405")
+                .statusName("Method Not Allowed")
                 .addHeader("Allow: HEAD, OPTIONS")
                 .build();
     }

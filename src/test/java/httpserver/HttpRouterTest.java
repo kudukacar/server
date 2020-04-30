@@ -24,7 +24,10 @@ class HttpRouterTest {
 
         HttpRequest request = new HttpRequest(method, path);
 
-        HttpResponse expectedResponse = new HttpResponse.Builder("200 Ok").build();
+        HttpResponse expectedResponse = new HttpResponse.Builder()
+                .statusCode("200")
+                .statusName("Ok")
+                .build();
         HttpRouter httpRouter = new HttpRouter(routes, new NonRouteable());
 
         assertThat(expectedResponse, samePropertyValuesAs(httpRouter.route(request)));
@@ -41,7 +44,9 @@ class HttpRouterTest {
 
         HttpRequest request = new HttpRequest("HEAD", path);
 
-        HttpResponse expectedResponse = new HttpResponse.Builder("405 Method Not Allowed")
+        HttpResponse expectedResponse = new HttpResponse.Builder()
+                .statusCode("405")
+                .statusName("Method Not Allowed")
                 .addHeader("Allow: HEAD, OPTIONS")
                 .build();
 
@@ -52,13 +57,18 @@ class HttpRouterTest {
 
     private static class GetWithNoBody implements Action {
         public HttpResponse act() {
-            return new HttpResponse.Builder("200 Ok").build();
+            return new HttpResponse.Builder()
+                    .statusCode("200")
+                    .statusName("Ok")
+                    .build();
         }
     }
 
     private static class NonRouteable implements Action {
         public HttpResponse act() {
-            return new HttpResponse.Builder("405 Method Not Allowed")
+            return new HttpResponse.Builder()
+                    .statusCode("405")
+                    .statusName("Method Not Allowed")
                     .addHeader("Allow: HEAD, OPTIONS")
                     .build();
         }

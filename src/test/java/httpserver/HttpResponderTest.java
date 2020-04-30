@@ -70,7 +70,10 @@ class HttpResponderTest {
     private static class SimpleHttpRouter implements Routeable {
         public HttpResponse route(HttpRequest request) {
             if(request.getMethod().equals(request.getPath())) {
-                return new HttpResponse.Builder("200 Ok").build();
+                return new HttpResponse.Builder()
+                        .statusCode("200")
+                        .statusName("Ok")
+                        .build();
             } else {
                 return null;
             }
