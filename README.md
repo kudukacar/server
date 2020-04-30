@@ -9,6 +9,8 @@ An HTTP Server and a TCP/IP server echoing sent messages
 2. Submit a request to http://ec2-35-153-12-10.compute-1.amazonaws.com:5000 for the following routes:
     1. GET at /simple_get
     2. GET at /simple_get_with_body
+    3. HEAD at /simple_get
+    4. HEAD at /head_request
 3. Alternatively, enter http://ec2-35-153-12-10.compute-1.amazonaws.com:5000 + route (for example, http://ec2-35-153-12-10.compute-1.amazonaws.com:5000/simple_get) in your browser.
 
 ## Run tests

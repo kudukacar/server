@@ -7,13 +7,15 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-class GetWithBodyTest {
+class SimpleGetWithBodyTest {
     @Test
     void ItReturnsAnHttpResponseWithStatus200AndBodyHelloworld() {
-        Action action = new GetWithBody();
-        HttpResponse response = new HttpResponse();
-        response.setResponseLine("200 Ok");
-        response.setBody("Hello world");
+        Action action = new SimpleGetWithBody();
+        HttpResponse response = new HttpResponse.Builder()
+                .statusCode("200")
+                .statusName("Ok")
+                .body("Hello world")
+                .build();
 
         assertThat(response, samePropertyValuesAs(action.act()));
     }

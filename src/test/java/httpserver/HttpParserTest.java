@@ -2,11 +2,12 @@ package httpserver;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 class HttpParserTest {
     @Test
-    void itParsesTheRequestLineOfAnHttpRequest() {
+    void itParsesTheHttpRequest() {
         HttpParser httpParser = new HttpParser();
 
         String request = (
@@ -20,8 +21,8 @@ class HttpParserTest {
                         "Hello world"
         );
 
-        String path = "/hello_world";
+        HttpRequest expectedRequest = new HttpRequest("GET", "/hello_world");
 
-        assertEquals(path, httpParser.parse(request));
+        assertThat(expectedRequest, samePropertyValuesAs(httpParser.parse(request)));
     }
 }

@@ -4,31 +4,63 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HttpResponse {
-    private String responseLine = "HTTP/1.1 ";
-    private String body = "";
-    private List<String> headers = new ArrayList<String>();
+    private final String body;
+    private final List<String> headers;
+    private final String version = "HTTP/1.1";
+    private final String statusCode;
+    private final String statusName;
 
-    public String getResponseLine() {
-        return this.responseLine;
+    private HttpResponse(Builder builder) {
+        this.statusCode = builder.statusCode;
+        this.statusName = builder.statusName;
+        this.body = builder.body;
+        this.headers = builder.headers;
     }
 
-    public void setResponseLine(String status) {
-        this.responseLine += status;
+    public String getVersion() {
+        return version;
+    }
+
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public String getStatusName() {
+        return statusName;
     }
 
     public String getBody() {
         return this.body;
     }
 
-    public void setBody(String body) {
-        this.body = body;
-    }
-
     public List<String> getHeaders() {
         return this.headers;
     }
 
-    public void setHeaders(List<String> headers) {
-        this.headers = headers;
+    public static class Builder {
+        private String body = "";
+        private List<String> headers = new ArrayList<>();
+        private String statusCode;
+        private String statusName;
+
+        public Builder statusCode (String statusCode) {
+            this.statusCode = statusCode;
+            return this;
+        }
+        public Builder statusName (String statusName) {
+            this.statusName = statusName;
+            return this;
+        }
+        public Builder body(String body) {
+            this.body = body;
+            return this;
+        }
+        public Builder addHeader(String header) {
+            this.headers.add(header);
+            return this;
+        }
+        public HttpResponse build() {
+            return new HttpResponse(this);
+        }
     }
 }

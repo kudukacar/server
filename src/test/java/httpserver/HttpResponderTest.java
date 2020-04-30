@@ -14,7 +14,7 @@ class HttpResponderTest {
         String request = "GET /hello_world HTTP/1.1" + System.lineSeparator();
         String expectedResponse = "HTTP/1.1 200 Ok" + System.lineSeparator();
         Parseable parser = new SimpleHttpParser();
-        Router router = new SimpleHttpRouter();
+        Routeable router = new SimpleHttpRouter();
         Presentable presenter = new SimpleHttpResponsePresenter();
         HttpResponder responder = new HttpResponder(parser, router, presenter);
         TestConnection connection = new TestConnection(request);
@@ -24,7 +24,7 @@ class HttpResponderTest {
         assertEquals(expectedResponse, connection.written);
     }
 
-    private class TestConnection implements Connection {
+    private static class TestConnection implements Connection {
         private final String request;
         public String written;
 
@@ -53,28 +53,30 @@ class HttpResponderTest {
         }
     }
 
-    private class SimpleHttpResponsePresenter implements Presentable {
-        private String response;
-
+    private static class SimpleHttpResponsePresenter implements Presentable {
         @Override
         public String present(HttpResponse response) {
-            return response.getResponseLine() + System.lineSeparator();
+            return response.getVersion() + " " + response.getStatusCode() + " " + response.getStatusName() + System.lineSeparator();
         }
     }
 
-    private class SimpleHttpParser implements Parseable {
-
+    private static class SimpleHttpParser implements Parseable {
         @Override
-        public String parse(String request) {
-            return request;
+        public HttpRequest parse(String request) {
+            return new HttpRequest(request, request);
         }
     }
 
-    private class SimpleHttpRouter implements Router {
-        public HttpResponse route(String request) {
-            HttpResponse response = new HttpResponse();
-            response.setResponseLine("200 Ok");
-            return response;
+    private static class SimpleHttpRouter implements Routeable {
+        public HttpResponse route(HttpRequest request) {
+            if(request.getMethod().equals(request.getPath())) {
+                return new HttpResponse.Builder()
+                        .statusCode("200")
+                        .statusName("Ok")
+                        .build();
+            } else {
+                return null;
+            }
         }
     }
 }
