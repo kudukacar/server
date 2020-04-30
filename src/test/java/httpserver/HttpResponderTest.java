@@ -56,7 +56,7 @@ class HttpResponderTest {
     private static class SimpleHttpResponsePresenter implements Presentable {
         @Override
         public String present(HttpResponse response) {
-            return response.getResponseLine() + System.lineSeparator();
+            return response.getVersion() + " " + response.getStatusCode() + " " + response.getStatusName() + System.lineSeparator();
         }
     }
 

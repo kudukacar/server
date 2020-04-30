@@ -4,18 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HttpResponse {
-    private final String responseLine;
     private final String body;
     private final List<String> headers;
+    private final String version = "HTTP/1.1";
+    private final String statusCode;
+    private final String statusName;
 
     private HttpResponse(Builder builder) {
-        this.responseLine = "HTTP/1.1 " + builder.statusCode + " " + builder.statusName;
+        this.statusCode = builder.statusCode;
+        this.statusName = builder.statusName;
         this.body = builder.body;
         this.headers = builder.headers;
     }
 
-    public String getResponseLine() {
-        return this.responseLine;
+    public String getVersion() {
+        return version;
+    }
+
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public String getStatusName() {
+        return statusName;
     }
 
     public String getBody() {

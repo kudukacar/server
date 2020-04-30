@@ -9,7 +9,6 @@ class HttpResponseTest {
     void itCreatesAnHttpResponse() {
         String statusCode = "405";
         String statusName =  "Method Not Allowed";
-        String responseLine = "HTTP/1.1 " + statusCode + " " + statusName;
         String header = "Allow: HEAD, OPTIONS";
         String body = "Method is not allowed";
 
@@ -20,7 +19,8 @@ class HttpResponseTest {
                 .body(body)
                 .build();
 
-        assertEquals(response.getResponseLine(), responseLine);
+        assertEquals(response.getStatusCode(), statusCode);
+        assertEquals(response.getStatusName(), statusName);
         assertEquals(response.getBody(), body);
         assertEquals(response.getHeaders().get(0), header);
     }
