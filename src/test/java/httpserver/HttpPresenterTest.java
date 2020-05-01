@@ -9,8 +9,7 @@ class HttpPresenterTest {
     void itFormatsAnHttpResponseWithOnlyAResponseLine() {
         HttpPresenter presenter = new HttpPresenter();
         HttpResponse response = new HttpResponse.Builder()
-                .statusCode("200")
-                .statusName("Ok")
+                .status(HttpStatus.OK)
                 .build();
 
         String formattedResponse = (
@@ -26,8 +25,7 @@ class HttpPresenterTest {
     void itFormatsAnHttpResponseWithAHeader() {
         HttpPresenter presenter = new HttpPresenter();
         HttpResponse response = new HttpResponse.Builder()
-                .statusCode("405")
-                .statusName("Method Not Allowed")
+                .status(HttpStatus.METHODNOTALLOWED)
                 .addHeader("Allow: HEAD, OPTIONS")
                 .build();
 
@@ -46,8 +44,7 @@ class HttpPresenterTest {
     void itFormatsAnHttpResponseWithABody() {
         HttpPresenter presenter = new HttpPresenter();
         HttpResponse response = new HttpResponse.Builder()
-                .statusCode("200")
-                .statusName("Ok")
+                .status(HttpStatus.OK)
                 .body("Hello world")
                 .build();
 

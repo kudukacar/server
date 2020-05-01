@@ -6,27 +6,20 @@ import java.util.List;
 public class HttpResponse {
     private final String body;
     private final List<String> headers;
-    private final String version = "HTTP/1.1";
-    private final String statusCode;
-    private final String statusName;
+    private final String status;
 
     private HttpResponse(Builder builder) {
-        this.statusCode = builder.statusCode;
-        this.statusName = builder.statusName;
+        this.status = builder.status;
         this.body = builder.body;
         this.headers = builder.headers;
     }
 
     public String getVersion() {
-        return version;
+        return "HTTP/1.1";
     }
 
-    public String getStatusCode() {
-        return statusCode;
-    }
-
-    public String getStatusName() {
-        return statusName;
+    public String getStatus() {
+        return status;
     }
 
     public String getBody() {
@@ -39,16 +32,11 @@ public class HttpResponse {
 
     public static class Builder {
         private String body = "";
-        private List<String> headers = new ArrayList<>();
-        private String statusCode;
-        private String statusName;
+        private final List<String> headers = new ArrayList<>();
+        private String status;
 
-        public Builder statusCode (String statusCode) {
-            this.statusCode = statusCode;
-            return this;
-        }
-        public Builder statusName (String statusName) {
-            this.statusName = statusName;
+        public Builder status(String status) {
+            this.status = status;
             return this;
         }
         public Builder body(String body) {

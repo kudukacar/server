@@ -18,7 +18,7 @@ public class HttpRoutes {
     }
 
     public static class Builder {
-        private Map<String, Map<String, Action>> routes = new HashMap<>();
+        private final Map<String, Map<String, Action>> routes = new HashMap<>();
 
         public Builder addRoute(String path, String method, Action action) {
             if(routes.containsKey(path)) {

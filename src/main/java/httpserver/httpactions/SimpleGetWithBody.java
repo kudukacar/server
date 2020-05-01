@@ -2,14 +2,14 @@ package httpserver.httpactions;
 
 import httpserver.HttpResponse;
 import httpserver.Action;
+import httpserver.HttpStatus;
 
 public class SimpleGetWithBody implements Action {
 
     @Override
     public HttpResponse act() {
         return new HttpResponse.Builder()
-                .statusCode("200")
-                .statusName("Ok")
+                .status(HttpStatus.OK)
                 .body("Hello world")
                 .build();
     }

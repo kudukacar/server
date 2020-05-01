@@ -56,7 +56,7 @@ class HttpResponderTest {
     private static class SimpleHttpResponsePresenter implements Presentable {
         @Override
         public String present(HttpResponse response) {
-            return response.getVersion() + " " + response.getStatusCode() + " " + response.getStatusName() + System.lineSeparator();
+            return response.getVersion() + " " + response.getStatus() + System.lineSeparator();
         }
     }
 
@@ -71,8 +71,7 @@ class HttpResponderTest {
         public HttpResponse route(HttpRequest request) {
             if(request.getMethod().equals(request.getPath())) {
                 return new HttpResponse.Builder()
-                        .statusCode("200")
-                        .statusName("Ok")
+                        .status(HttpStatus.OK)
                         .build();
             } else {
                 return null;

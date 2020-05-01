@@ -3,11 +3,7 @@ package httpserver;
 public class HttpPresenter implements Presentable{
 
     public String present(HttpResponse response) {
-        String responseLine = (
-                response.getVersion() + " "
-                        + response.getStatusCode() + " "
-                        + response.getStatusName() + System.lineSeparator()
-        );
+        String responseLine = response.getVersion() + " " + response.getStatus() + System.lineSeparator();
         String body = response.getBody();
         return responseLine + headers(response) + body;
     }

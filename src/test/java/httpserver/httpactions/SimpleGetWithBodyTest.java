@@ -2,6 +2,7 @@ package httpserver.httpactions;
 
 import httpserver.HttpResponse;
 import httpserver.Action;
+import httpserver.HttpStatus;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,8 +13,7 @@ class SimpleGetWithBodyTest {
     void ItReturnsAnHttpResponseWithStatus200AndBodyHelloworld() {
         Action action = new SimpleGetWithBody();
         HttpResponse response = new HttpResponse.Builder()
-                .statusCode("200")
-                .statusName("Ok")
+                .status(HttpStatus.OK)
                 .body("Hello world")
                 .build();
 

@@ -2,11 +2,6 @@ package httpserver;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
@@ -17,18 +12,16 @@ class HttpRouterTest {
         String path = "/simple_get";
         String method = "GET";
 
-        Map<String, Map<String, Action>> routes =  new HashMap<>();
-        routes.put("/simple_get", Stream.of(new Object[][] {
-                {method, new GetWithNoBody()},
-        }).collect(Collectors.toMap(entries -> (String) entries[0], entries -> (Action) entries[1])));
+        HttpRoutes routes = new HttpRoutes.Builder()
+                .addRoute(path, method, new GetWithNoBody())
+                .build();
 
         HttpRequest request = new HttpRequest(method, path);
 
         HttpResponse expectedResponse = new HttpResponse.Builder()
-                .statusCode("200")
-                .statusName("Ok")
+                .status(HttpStatus.OK)
                 .build();
-        HttpRouter httpRouter = new HttpRouter(routes, new NonRouteable());
+        HttpRouter httpRouter = new HttpRouter(routes, new NonRouteable(), new NonRouteable());
 
         assertThat(expectedResponse, samePropertyValuesAs(httpRouter.route(request)));
     }
@@ -37,29 +30,42 @@ class HttpRouterTest {
     void ItDirectsANonRouteableHttpRequest() {
         String path = "/simple_get";
 
-        Map<String, Map<String, Action>> routes =  new HashMap<>();
-        routes.put("/simple_get", Stream.of(new Object[][] {
-                {"GET", new GetWithNoBody()},
-        }).collect(Collectors.toMap(entries -> (String) entries[0], entries -> (Action) entries[1])));
+        HttpRoutes routes = new HttpRoutes.Builder()
+                .addRoute(path, "GET", new GetWithNoBody())
+                .build();
 
         HttpRequest request = new HttpRequest("HEAD", path);
 
         HttpResponse expectedResponse = new HttpResponse.Builder()
-                .statusCode("405")
-                .statusName("Method Not Allowed")
+                .status(HttpStatus.METHODNOTALLOWED)
                 .addHeader("Allow: HEAD, OPTIONS")
                 .build();
 
-        HttpRouter httpRouter = new HttpRouter(routes, new NonRouteable());
+        HttpRouter httpRouter = new HttpRouter(routes, new NonRouteable(), new NonRouteable());
 
         assertThat(expectedResponse, samePropertyValuesAs(httpRouter.route(request)));
+    }
+
+    @Test
+    void ItDirectsABadHttpRequest() {
+        HttpRoutes routes = new HttpRoutes.Builder()
+                .addRoute("/simple_get", "GET", new GetWithNoBody())
+                .build();
+
+        HttpResponse expectedResponse = new HttpResponse.Builder()
+                .status(HttpStatus.METHODNOTALLOWED)
+                .addHeader("Allow: HEAD, OPTIONS")
+                .build();
+
+        HttpRouter httpRouter = new HttpRouter(routes, new NonRouteable(), new NonRouteable());
+
+        assertThat(expectedResponse, samePropertyValuesAs(httpRouter.route(null)));
     }
 
     private static class GetWithNoBody implements Action {
         public HttpResponse act() {
             return new HttpResponse.Builder()
-                    .statusCode("200")
-                    .statusName("Ok")
+                    .status(HttpStatus.OK)
                     .build();
         }
     }
@@ -67,8 +73,7 @@ class HttpRouterTest {
     private static class NonRouteable implements Action {
         public HttpResponse act() {
             return new HttpResponse.Builder()
-                    .statusCode("405")
-                    .statusName("Method Not Allowed")
+                    .status(HttpStatus.METHODNOTALLOWED)
                     .addHeader("Allow: HEAD, OPTIONS")
                     .build();
         }

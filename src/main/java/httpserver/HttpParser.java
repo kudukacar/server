@@ -8,6 +8,11 @@ public class HttpParser implements Parseable{
     public HttpRequest parse(String request) {
         List<String> splitRequest = Arrays.asList(request.split(System.lineSeparator()));
         List<String> splitRequestLine = Arrays.asList(splitRequest.get(0).split(" "));
-        return new HttpRequest(splitRequestLine.get(0), splitRequestLine.get(1));
+        if(splitRequestLine.size() == 3)
+        {
+            return new HttpRequest(splitRequestLine.get(0), splitRequestLine.get(1));
+        } else {
+            return null;
+        }
     }
 }

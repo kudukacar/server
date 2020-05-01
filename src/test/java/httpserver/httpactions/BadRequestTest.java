@@ -8,13 +8,12 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-class MethodNotAllowedTest {
+class BadRequestTest {
     @Test
-    void ItReturnsAnHttpResponseWithStatus405AndAllowHeaders() {
-        Action action = new MethodNotAllowed();
+    void itReturnsAnHttpResponseWithStatusCode400() {
+        Action action = new BadRequest();
         HttpResponse response = new HttpResponse.Builder()
-                .status(HttpStatus.METHODNOTALLOWED)
-                .addHeader("Allow: HEAD, OPTIONS")
+                .status(HttpStatus.BADREQUEST)
                 .build();
 
         assertThat(response, samePropertyValuesAs(action.act()));
