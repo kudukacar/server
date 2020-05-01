@@ -8,7 +8,7 @@ public class BadRequest implements Action {
     @Override
     public HttpResponse act() {
         return new HttpResponse.Builder()
-                .status(HttpStatus.BADREQUEST)
+                .status(HttpStatus.BAD_REQUEST)
                 .build();
     }
 }

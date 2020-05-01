@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class HttpParserTest {
     @Test
@@ -24,7 +24,7 @@ class HttpParserTest {
 
         HttpRequest expectedRequest = new HttpRequest("GET", "/hello_world");
 
-        assertThat(expectedRequest, samePropertyValuesAs(httpParser.parse(request)));
+        assertThat(expectedRequest, samePropertyValuesAs(httpParser.parse(request).get()));
     }
 
     @Test
@@ -36,6 +36,6 @@ class HttpParserTest {
                         System.lineSeparator()
         );
 
-        assertNull(httpParser.parse(request));
+        assertFalse(httpParser.parse(request).isPresent());
     }
 }

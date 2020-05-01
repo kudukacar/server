@@ -13,7 +13,7 @@ class BadRequestTest {
     void itReturnsAnHttpResponseWithStatusCode400() {
         Action action = new BadRequest();
         HttpResponse response = new HttpResponse.Builder()
-                .status(HttpStatus.BADREQUEST)
+                .status(HttpStatus.BAD_REQUEST)
                 .build();
 
         assertThat(response, samePropertyValuesAs(action.act()));

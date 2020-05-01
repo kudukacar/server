@@ -2,6 +2,8 @@ package httpserver;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
@@ -16,7 +18,7 @@ class HttpRouterTest {
                 .addRoute(path, method, new GetWithNoBody())
                 .build();
 
-        HttpRequest request = new HttpRequest(method, path);
+        Optional<HttpRequest> request = Optional.of(new HttpRequest(method, path));
 
         HttpResponse expectedResponse = new HttpResponse.Builder()
                 .status(HttpStatus.OK)
@@ -34,10 +36,10 @@ class HttpRouterTest {
                 .addRoute(path, "GET", new GetWithNoBody())
                 .build();
 
-        HttpRequest request = new HttpRequest("HEAD", path);
+        Optional<HttpRequest> request = Optional.of(new HttpRequest("HEAD", path));
 
         HttpResponse expectedResponse = new HttpResponse.Builder()
-                .status(HttpStatus.METHODNOTALLOWED)
+                .status(HttpStatus.METHOD_NOT_ALLOWED)
                 .addHeader("Allow: HEAD, OPTIONS")
                 .build();
 
@@ -53,13 +55,13 @@ class HttpRouterTest {
                 .build();
 
         HttpResponse expectedResponse = new HttpResponse.Builder()
-                .status(HttpStatus.METHODNOTALLOWED)
+                .status(HttpStatus.METHOD_NOT_ALLOWED)
                 .addHeader("Allow: HEAD, OPTIONS")
                 .build();
 
         HttpRouter httpRouter = new HttpRouter(routes, new NonRouteable(), new NonRouteable());
 
-        assertThat(expectedResponse, samePropertyValuesAs(httpRouter.route(null)));
+        assertThat(expectedResponse, samePropertyValuesAs(httpRouter.route(Optional.empty())));
     }
 
     private static class GetWithNoBody implements Action {
@@ -73,7 +75,7 @@ class HttpRouterTest {
     private static class NonRouteable implements Action {
         public HttpResponse act() {
             return new HttpResponse.Builder()
-                    .status(HttpStatus.METHODNOTALLOWED)
+                    .status(HttpStatus.METHOD_NOT_ALLOWED)
                     .addHeader("Allow: HEAD, OPTIONS")
                     .build();
         }

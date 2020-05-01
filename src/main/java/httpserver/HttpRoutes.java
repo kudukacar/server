@@ -3,6 +3,7 @@ package httpserver;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,6 +16,10 @@ public class HttpRoutes {
 
     public Map<String, Map<String, Action>> getRoutes() {
         return routes;
+    }
+
+    public Optional<Action> getAction(String path, String method) {
+        return Optional.ofNullable(routes.get(path)).map(route -> route.get(method));
     }
 
     public static class Builder {

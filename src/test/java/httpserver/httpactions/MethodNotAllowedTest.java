@@ -13,7 +13,7 @@ class MethodNotAllowedTest {
     void ItReturnsAnHttpResponseWithStatus405AndAllowHeaders() {
         Action action = new MethodNotAllowed();
         HttpResponse response = new HttpResponse.Builder()
-                .status(HttpStatus.METHODNOTALLOWED)
+                .status(HttpStatus.METHOD_NOT_ALLOWED)
                 .addHeader("Allow: HEAD, OPTIONS")
                 .build();
 

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class HttpResponseTest {
     @Test
     void itCreatesAnHttpResponse() {
-        String status = HttpStatus.METHODNOTALLOWED;
+        String status = HttpStatus.METHOD_NOT_ALLOWED;
         String header = "Allow: HEAD, OPTIONS";
         String body = "Method is not allowed";
 

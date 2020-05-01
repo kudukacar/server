@@ -4,6 +4,7 @@ import infrastructure.Connection;
 import infrastructure.Respondable;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class HttpResponder implements Respondable {
     private final Routeable router;
@@ -19,7 +20,7 @@ public class HttpResponder implements Respondable {
     @Override
     public void respond(Connection connection) throws IOException {
         String input = connection.read();
-        HttpRequest parsedInput = parser.parse(input);
+        Optional<HttpRequest> parsedInput = parser.parse(input);
         HttpResponse response = router.route(parsedInput);
         String formattedResponse = presenter.present(response);
         connection.write(formattedResponse);
