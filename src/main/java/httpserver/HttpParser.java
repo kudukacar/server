@@ -8,12 +8,13 @@ public class HttpParser implements Parseable{
     @Override
     public Optional<HttpRequest> parse(String request) {
         List<String> splitRequest = Arrays.asList(request.split(System.lineSeparator()));
-        List<String> splitRequestLine = Arrays.asList(splitRequest.get(0).split(" "));
-        HttpRequest httpRequest = null;
-        if(splitRequestLine.size() == 3)
+        List<String> requestLineComponents = Arrays.asList(splitRequest.get(0).split(" "));
+        if(requestLineComponents.size() == 3)
         {
-            httpRequest = new HttpRequest(splitRequestLine.get(0), splitRequestLine.get(1));
+            String method = requestLineComponents.get(0);
+            String path = requestLineComponents.get(1);
+            return Optional.of(new HttpRequest(method, path));
         }
-        return Optional.ofNullable(httpRequest);
+        return Optional.empty();
     }
 }
