@@ -4,6 +4,7 @@ import infrastructure.Connection;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -56,23 +57,23 @@ class HttpResponderTest {
     private static class SimpleHttpResponsePresenter implements Presentable {
         @Override
         public String present(HttpResponse response) {
-            return response.getVersion() + " " + response.getStatusCode() + " " + response.getStatusName() + System.lineSeparator();
+            return response.getVersion() + " " + response.getStatus() + System.lineSeparator();
         }
     }
 
     private static class SimpleHttpParser implements Parseable {
         @Override
-        public HttpRequest parse(String request) {
-            return new HttpRequest(request, request);
+        public Optional<HttpRequest> parse(String request) {
+            return Optional.of(new HttpRequest(request, request));
         }
     }
 
     private static class SimpleHttpRouter implements Routeable {
-        public HttpResponse route(HttpRequest request) {
-            if(request.getMethod().equals(request.getPath())) {
+        public HttpResponse route(Optional<HttpRequest> request) {
+            HttpRequest httpRequest = request.get();
+            if(httpRequest.getMethod().equals(httpRequest.getPath())) {
                 return new HttpResponse.Builder()
-                        .statusCode("200")
-                        .statusName("Ok")
+                        .status(HttpStatus.OK)
                         .build();
             } else {
                 return null;

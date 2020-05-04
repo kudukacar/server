@@ -1,5 +1,7 @@
 package httpserver;
 
+import java.util.Optional;
+
 public interface Parseable {
-    HttpRequest parse(String request);
+    Optional<HttpRequest> parse(String request);
 }

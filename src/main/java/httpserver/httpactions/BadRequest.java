@@ -4,12 +4,11 @@ import httpserver.Action;
 import httpserver.HttpResponse;
 import httpserver.HttpStatus;
 
-public class MethodNotAllowed implements Action {
+public class BadRequest implements Action {
     @Override
     public HttpResponse act() {
         return new HttpResponse.Builder()
-                .status(HttpStatus.METHOD_NOT_ALLOWED)
-                .addHeader("Allow: HEAD, OPTIONS")
+                .status(HttpStatus.BAD_REQUEST)
                 .build();
     }
 }

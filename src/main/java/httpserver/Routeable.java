@@ -1,5 +1,7 @@
 package httpserver;
 
+import java.util.Optional;
+
 public interface Routeable {
-    HttpResponse route(HttpRequest request);
+    HttpResponse route(Optional<HttpRequest> request);
 }

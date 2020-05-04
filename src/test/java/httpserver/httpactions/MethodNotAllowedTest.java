@@ -2,6 +2,7 @@ package httpserver.httpactions;
 
 import httpserver.Action;
 import httpserver.HttpResponse;
+import httpserver.HttpStatus;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,8 +13,7 @@ class MethodNotAllowedTest {
     void ItReturnsAnHttpResponseWithStatus405AndAllowHeaders() {
         Action action = new MethodNotAllowed();
         HttpResponse response = new HttpResponse.Builder()
-                .statusCode("405")
-                .statusName("Method Not Allowed")
+                .status(HttpStatus.METHOD_NOT_ALLOWED)
                 .addHeader("Allow: HEAD, OPTIONS")
                 .build();
 
