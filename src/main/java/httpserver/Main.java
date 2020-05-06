@@ -1,9 +1,6 @@
 package httpserver;
 
-import httpserver.httpactions.BadRequest;
-import httpserver.httpactions.MethodNotAllowed;
-import httpserver.httpactions.SimpleGetWithBody;
-import httpserver.httpactions.SimpleGetWithoutBody;
+import httpserver.httpactions.*;
 import infrastructure.Listener;
 import infrastructure.Logger;
 import infrastructure.Server;
@@ -31,7 +28,7 @@ public class Main {
                 .addRoute("/head_request", HEAD, new SimpleGetWithoutBody())
                 .build();
 
-        HttpRouter router = new HttpRouter(routes, new MethodNotAllowed(), new BadRequest());
+        HttpRouter router = new HttpRouter(routes, new MethodNotAllowed(), new BadRequest(), new NotFound());
         HttpResponder responder = new HttpResponder(parser, router, presenter);
 
         try(Listener listener = new Listener(serverSocket);) {

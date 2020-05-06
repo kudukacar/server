@@ -1,5 +1,6 @@
 package httpserver;
 
+import httpserver.httpactions.BadRequest;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -23,13 +24,13 @@ class HttpRouterTest {
         HttpResponse expectedResponse = new HttpResponse.Builder()
                 .status(HttpStatus.OK)
                 .build();
-        HttpRouter httpRouter = new HttpRouter(routes, new NonRouteable(), new NonRouteable());
+        HttpRouter httpRouter = new HttpRouter(routes, new NotAllowed(), new Bad(), new PageNotFound());
 
         assertThat(expectedResponse, samePropertyValuesAs(httpRouter.route(request)));
     }
 
     @Test
-    void ItDirectsANonRouteableHttpRequest() {
+    void ItDirectsAnHttpRequestWithTheWrongMethod() {
         String path = "/simple_get";
 
         HttpRoutes routes = new HttpRoutes.Builder()
@@ -40,10 +41,26 @@ class HttpRouterTest {
 
         HttpResponse expectedResponse = new HttpResponse.Builder()
                 .status(HttpStatus.METHOD_NOT_ALLOWED)
-                .addHeader("Allow: HEAD, OPTIONS")
                 .build();
 
-        HttpRouter httpRouter = new HttpRouter(routes, new NonRouteable(), new NonRouteable());
+        HttpRouter httpRouter = new HttpRouter(routes, new NotAllowed(), new Bad(), new PageNotFound());
+
+        assertThat(expectedResponse, samePropertyValuesAs(httpRouter.route(request)));
+    }
+
+    @Test
+    void itDirectsAnHttpRequestToANonExistentPath() {
+        HttpRoutes routes = new HttpRoutes.Builder()
+                .addRoute("/simple_get", "GET", new GetWithNoBody())
+                .build();
+
+        Optional<HttpRequest> request = Optional.of(new HttpRequest("GET", "/simple_get_with_body"));
+
+        HttpResponse expectedResponse = new HttpResponse.Builder()
+                .status(HttpStatus.NOT_FOUND)
+                .build();
+
+        HttpRouter httpRouter = new HttpRouter(routes, new NotAllowed(), new Bad(), new PageNotFound());
 
         assertThat(expectedResponse, samePropertyValuesAs(httpRouter.route(request)));
     }
@@ -55,11 +72,10 @@ class HttpRouterTest {
                 .build();
 
         HttpResponse expectedResponse = new HttpResponse.Builder()
-                .status(HttpStatus.METHOD_NOT_ALLOWED)
-                .addHeader("Allow: HEAD, OPTIONS")
+                .status(HttpStatus.BAD_REQUEST)
                 .build();
 
-        HttpRouter httpRouter = new HttpRouter(routes, new NonRouteable(), new NonRouteable());
+        HttpRouter httpRouter = new HttpRouter(routes, new NotAllowed(), new Bad(), new PageNotFound());
 
         assertThat(expectedResponse, samePropertyValuesAs(httpRouter.route(Optional.empty())));
     }
@@ -72,11 +88,26 @@ class HttpRouterTest {
         }
     }
 
-    private static class NonRouteable implements Action {
+    private static class NotAllowed implements Action {
         public HttpResponse act() {
             return new HttpResponse.Builder()
                     .status(HttpStatus.METHOD_NOT_ALLOWED)
-                    .addHeader("Allow: HEAD, OPTIONS")
+                    .build();
+        }
+    }
+
+    private static class Bad implements Action {
+        public HttpResponse act() {
+            return new HttpResponse.Builder()
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+    }
+
+    private static class PageNotFound implements Action {
+        public HttpResponse act() {
+            return new HttpResponse.Builder()
+                    .status(HttpStatus.NOT_FOUND)
                     .build();
         }
     }
