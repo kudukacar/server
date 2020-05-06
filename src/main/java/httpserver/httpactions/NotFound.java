@@ -1,14 +1,14 @@
 package httpserver.httpactions;
 
-import httpserver.HttpResponse;
 import httpserver.Action;
+import httpserver.HttpResponse;
 import httpserver.HttpStatus;
 
-public class SimpleGetWithoutBody implements Action {
+public class NotFound implements Action {
     @Override
     public HttpResponse act(String body) {
         return new HttpResponse.Builder()
-                .status(HttpStatus.OK)
+                .status(HttpStatus.NOT_FOUND)
                 .build();
     }
 }

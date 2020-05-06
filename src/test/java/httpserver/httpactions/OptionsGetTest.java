@@ -1,20 +1,21 @@
 package httpserver.httpactions;
 
-import httpserver.HttpResponse;
 import httpserver.Action;
+import httpserver.HttpResponse;
 import httpserver.HttpStatus;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.junit.jupiter.api.Assertions.*;
 
-class SimpleGetWithBodyTest {
+class OptionsGetTest {
     @Test
-    void ItReturnsAnHttpResponseWithStatus200AndBodyHelloworld() {
-        Action action = new SimpleGetWithBody();
+    void itReturnsAnHttpResponseWithStatusCode200AndAllowHeaders() {
+        Action action = new OptionsGet();
         HttpResponse response = new HttpResponse.Builder()
                 .status(HttpStatus.OK)
-                .body("Hello world")
+                .addHeader("Allow: GET, HEAD, OPTIONS")
                 .build();
 
         assertThat(response, samePropertyValuesAs(action.act("")));

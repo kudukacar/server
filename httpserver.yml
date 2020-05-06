@@ -5,7 +5,7 @@ deploy:
   artifact: build/libs/httpserver.jar
 global:
   application_name: http_server
-  default_ec2_keyname: e-jfvnmhjemf
+  default_ec2_keyname: eba-83x7pper
   default_platform: Java 8 running on 64bit Amazon Linux/2.10.4
   default_region: us-east-1
   sc: git

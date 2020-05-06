@@ -5,8 +5,7 @@ import httpserver.HttpResponse;
 import httpserver.HttpStatus;
 
 public class BadRequest implements Action {
-    @Override
-    public HttpResponse act() {
+    public HttpResponse act(String body) {
         return new HttpResponse.Builder()
                 .status(HttpStatus.BAD_REQUEST)
                 .build();

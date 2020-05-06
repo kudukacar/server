@@ -32,6 +32,18 @@ class HttpRoutesTest {
     }
 
     @Test
+    void itReturnsABooleanIndicatingIfThePathExists() {
+        Action action = new SimpleGet();
+        String path = "/simple_get";
+        String GET = "GET";
+        HttpRoutes routes = new HttpRoutes.Builder()
+                .addRoute(path, GET, action)
+                .build();
+
+        assertTrue(routes.getPath(path));
+    }
+
+    @Test
     void itReturnsAnOptionalActionIfAvailable() {
         Action action = new SimpleGet();
         String path = "/simple_get";
@@ -61,7 +73,7 @@ class HttpRoutesTest {
 
     private static class SimpleGet implements Action {
         @Override
-        public HttpResponse act() {
+        public HttpResponse act(String body) {
             return null;
         }
     }

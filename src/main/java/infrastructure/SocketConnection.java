@@ -1,9 +1,8 @@
 package infrastructure;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
+import java.util.stream.Collectors;
 
 public class SocketConnection implements Connection {
     private final Socket socket;
@@ -14,7 +13,12 @@ public class SocketConnection implements Connection {
 
     @Override
     public String read() throws IOException {
-        return new BufferedReader(new InputStreamReader(socket.getInputStream())).readLine();
+        InputStream inputStream = socket.getInputStream();
+        StringBuilder input = new StringBuilder();
+        do {
+            input.append((char) inputStream.read());
+        } while(inputStream.available() > 0);
+        return input.toString();
     }
 
     @Override

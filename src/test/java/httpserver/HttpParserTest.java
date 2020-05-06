@@ -10,6 +10,7 @@ class HttpParserTest {
     @Test
     void itParsesAValidHttpRequest() {
         HttpParser httpParser = new HttpParser();
+        String body = "Hello world";
 
         String request = (
                 "GET /hello_world HTTP/1.1" +
@@ -19,10 +20,10 @@ class HttpParserTest {
                         "Connection: keep-alive" +
                         System.lineSeparator() +
                         System.lineSeparator() +
-                        "Hello world"
+                        body
         );
 
-        HttpRequest expectedRequest = new HttpRequest("GET", "/hello_world");
+        HttpRequest expectedRequest = new HttpRequest("GET", "/hello_world", body);
 
         assertThat(expectedRequest, samePropertyValuesAs(httpParser.parse(request).get()));
     }

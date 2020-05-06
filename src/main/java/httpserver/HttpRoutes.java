@@ -22,6 +22,10 @@ public class HttpRoutes {
         return Optional.ofNullable(routes.get(path)).map(route -> route.get(method));
     }
 
+    public boolean getPath(String path) {
+        return routes.containsKey(path);
+    }
+
     public static class Builder {
         private final Map<String, Map<String, Action>> routes = new HashMap<>();
 

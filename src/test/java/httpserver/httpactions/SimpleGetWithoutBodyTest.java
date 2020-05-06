@@ -16,6 +16,6 @@ class SimpleGetWithoutBodyTest {
                 .status(HttpStatus.OK)
                 .build();
 
-        assertThat(response, samePropertyValuesAs(action.act()));
+        assertThat(response, samePropertyValuesAs(action.act("")));
     }
 }

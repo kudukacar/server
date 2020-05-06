@@ -17,7 +17,7 @@ class EchoerTest {
         TestConnection connection = new TestConnection(input);
         echoer.respond(connection);
 
-        assertEquals(Arrays.asList("Welcome\n", "This\n", "Should\n", "be\n", "echoed\n"), connection.written);
+        assertEquals(Arrays.asList("Welcome\n", "This", "Should", "be", "echoed"), connection.written);
     }
 
     private class TestConnection implements Connection {
