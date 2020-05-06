@@ -1,8 +1,9 @@
 # HTTP and Echo Servers
-An HTTP Server and a TCP/IP server echoing sent messages
+An HTTP server responding to HTTP requests, and a TCP/IP server echoing sent messages
  
 ## Run the Echo Server
 1. Connect via netcat by typing the following in your terminal:  nc ec2-34-239-5-246.compute-1.amazonaws.com 5000
+2. Enter a message to echo
 
 ## Run the HTTP Server
 1. [Install Postman](https://learning.postman.com/docs/postman/launching-postman/installation-and-updates/)
