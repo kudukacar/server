@@ -26,6 +26,7 @@ public class Main {
                 .addRoute(simple_get, HEAD, new SimpleGetWithoutBody())
                 .addRoute("/simple_get_with_body", GET, new SimpleGetWithBody())
                 .addRoute("/head_request", HEAD, new SimpleGetWithoutBody())
+                .addRoute("/redirect", GET, new Redirect())
                 .build();
 
         HttpRouter router = new HttpRouter(routes, new MethodNotAllowed(), new BadRequest(), new NotFound());
