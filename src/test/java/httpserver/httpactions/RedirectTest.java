@@ -14,7 +14,7 @@ class RedirectTest {
         Action action = new Redirect();
         HttpResponse httpResponse = new HttpResponse.Builder()
                 .status(HttpStatus.REDIRECT)
-                .addHeader("Location: http://0.0.0.0:5000/simple_get")
+                .addHeader("Location: http://127.0.0.1:5000/simple_get")
                 .build();
 
         assertThat(httpResponse, samePropertyValuesAs(action.act()));
