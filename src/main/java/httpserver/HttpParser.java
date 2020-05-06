@@ -13,8 +13,17 @@ public class HttpParser implements Parseable{
         {
             String method = requestLineComponents.get(0);
             String path = requestLineComponents.get(1);
-            return Optional.of(new HttpRequest(method, path));
+            return Optional.of(new HttpRequest(method, path, body(requestComponents)));
         }
         return Optional.empty();
     }
+
+    private String body(List<String> requestComponents) {
+        if(requestComponents.size() > 1) {
+            return requestComponents.get(requestComponents.size() - 1);
+        } else {
+            return "";
+        }
+    }
+
 }

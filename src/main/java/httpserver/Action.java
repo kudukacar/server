@@ -1,5 +1,5 @@
 package httpserver;
 
 public interface Action {
-    HttpResponse act();
+    HttpResponse act(String body);
 }

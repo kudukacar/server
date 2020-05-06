@@ -16,6 +16,6 @@ class BadRequestTest {
                 .status(HttpStatus.BAD_REQUEST)
                 .build();
 
-        assertThat(response, samePropertyValuesAs(action.act()));
+        assertThat(response, samePropertyValuesAs(action.act("")));
     }
 }

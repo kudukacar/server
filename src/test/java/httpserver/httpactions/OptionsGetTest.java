@@ -18,6 +18,6 @@ class OptionsGetTest {
                 .addHeader("Allow: GET, HEAD, OPTIONS")
                 .build();
 
-        assertThat(response, samePropertyValuesAs(action.act()));
+        assertThat(response, samePropertyValuesAs(action.act("")));
     }
 }

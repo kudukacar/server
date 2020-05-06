@@ -20,6 +20,7 @@ public class Main {
         String GET = "GET";
         String HEAD = "HEAD";
         String OPTIONS = "OPTIONS";
+        String POST = "POST";
         String simple_get = "/simple_get";
 
         HttpRoutes routes = new HttpRoutes.Builder()
@@ -30,6 +31,7 @@ public class Main {
                 .addRoute("/redirect", GET, new Redirect())
                 .addRoute("/method_options", OPTIONS, new OptionsGet())
                 .addRoute("/method_options2", OPTIONS, new OptionsMultiple())
+                .addRoute("/echo_body", POST, new SimplePost())
                 .build();
 
         HttpRouter router = new HttpRouter(routes, new MethodNotAllowed(), new BadRequest(), new NotFound());

@@ -17,6 +17,6 @@ class NotFoundTest {
                 .status(HttpStatus.NOT_FOUND)
                 .build();
 
-        assertThat(httpResponse, samePropertyValuesAs(action.act()));
+        assertThat(httpResponse, samePropertyValuesAs(action.act("")));
     }
 }

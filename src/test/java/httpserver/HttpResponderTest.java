@@ -64,7 +64,7 @@ class HttpResponderTest {
     private static class SimpleHttpParser implements Parseable {
         @Override
         public Optional<HttpRequest> parse(String request) {
-            return Optional.of(new HttpRequest(request, request));
+            return Optional.of(new HttpRequest(request, request, ""));
         }
     }
 

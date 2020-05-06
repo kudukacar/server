@@ -7,7 +7,7 @@ import httpserver.HttpStatus;
 public class SimpleGetWithBody implements Action {
 
     @Override
-    public HttpResponse act() {
+    public HttpResponse act(String body) {
         return new HttpResponse.Builder()
                 .status(HttpStatus.OK)
                 .body("Hello world")

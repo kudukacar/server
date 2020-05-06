@@ -6,7 +6,7 @@ import httpserver.HttpStatus;
 
 public class MethodNotAllowed implements Action {
     @Override
-    public HttpResponse act() {
+    public HttpResponse act(String body) {
         return new HttpResponse.Builder()
                 .status(HttpStatus.METHOD_NOT_ALLOWED)
                 .addHeader("Allow: HEAD, OPTIONS")

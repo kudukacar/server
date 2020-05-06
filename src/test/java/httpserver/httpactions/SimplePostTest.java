@@ -8,15 +8,16 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-class OptionsMultipleTest {
+class SimplePostTest {
     @Test
-    void itReturnAnHttpResponseWithStatusCode200AndAllowHeaders() {
-        Action action = new OptionsMultiple();
-        HttpResponse response = new HttpResponse.Builder()
+    void itReturnsAnHttpResponseOfStatusOkAndSameBodyAsRequest() {
+        Action action = new SimplePost();
+        String body = "body";
+        HttpResponse httpResponse = new HttpResponse.Builder()
                 .status(HttpStatus.OK)
-                .addHeader("Allow: GET, HEAD, OPTIONS, PUT, POST")
+                .body(body)
                 .build();
 
-        assertThat(response, samePropertyValuesAs(action.act("")));
+        assertThat(httpResponse, samePropertyValuesAs(action.act(body)));
     }
 }

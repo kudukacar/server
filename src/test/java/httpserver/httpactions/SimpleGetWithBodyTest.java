@@ -17,6 +17,6 @@ class SimpleGetWithBodyTest {
                 .body("Hello world")
                 .build();
 
-        assertThat(response, samePropertyValuesAs(action.act()));
+        assertThat(response, samePropertyValuesAs(action.act("")));
     }
 }

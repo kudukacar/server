@@ -19,7 +19,7 @@ class HttpRouterTest {
                 .addRoute(path, method, new GetWithNoBody())
                 .build();
 
-        Optional<HttpRequest> request = Optional.of(new HttpRequest(method, path));
+        Optional<HttpRequest> request = Optional.of(new HttpRequest(method, path, ""));
 
         HttpResponse expectedResponse = new HttpResponse.Builder()
                 .status(HttpStatus.OK)
@@ -37,7 +37,7 @@ class HttpRouterTest {
                 .addRoute(path, "GET", new GetWithNoBody())
                 .build();
 
-        Optional<HttpRequest> request = Optional.of(new HttpRequest("HEAD", path));
+        Optional<HttpRequest> request = Optional.of(new HttpRequest("HEAD", path, ""));
 
         HttpResponse expectedResponse = new HttpResponse.Builder()
                 .status(HttpStatus.METHOD_NOT_ALLOWED)
@@ -54,7 +54,7 @@ class HttpRouterTest {
                 .addRoute("/simple_get", "GET", new GetWithNoBody())
                 .build();
 
-        Optional<HttpRequest> request = Optional.of(new HttpRequest("GET", "/simple_get_with_body"));
+        Optional<HttpRequest> request = Optional.of(new HttpRequest("GET", "/simple_get_with_body", ""));
 
         HttpResponse expectedResponse = new HttpResponse.Builder()
                 .status(HttpStatus.NOT_FOUND)
@@ -81,7 +81,7 @@ class HttpRouterTest {
     }
 
     private static class GetWithNoBody implements Action {
-        public HttpResponse act() {
+        public HttpResponse act(String body) {
             return new HttpResponse.Builder()
                     .status(HttpStatus.OK)
                     .build();
@@ -89,7 +89,7 @@ class HttpRouterTest {
     }
 
     private static class NotAllowed implements Action {
-        public HttpResponse act() {
+        public HttpResponse act(String body) {
             return new HttpResponse.Builder()
                     .status(HttpStatus.METHOD_NOT_ALLOWED)
                     .build();
@@ -97,7 +97,7 @@ class HttpRouterTest {
     }
 
     private static class Bad implements Action {
-        public HttpResponse act() {
+        public HttpResponse act(String body) {
             return new HttpResponse.Builder()
                     .status(HttpStatus.BAD_REQUEST)
                     .build();
@@ -105,7 +105,7 @@ class HttpRouterTest {
     }
 
     private static class PageNotFound implements Action {
-        public HttpResponse act() {
+        public HttpResponse act(String body) {
             return new HttpResponse.Builder()
                     .status(HttpStatus.NOT_FOUND)
                     .build();

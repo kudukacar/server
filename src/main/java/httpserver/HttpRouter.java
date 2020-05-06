@@ -17,15 +17,15 @@ public class HttpRouter implements Routeable {
     }
 
     public HttpResponse route(Optional<HttpRequest> request) {
-        return request.map(this::routeValidRequest).orElse(badRequest.act());
+        return request.map(this::routeValidRequest).orElse(badRequest.act(""));
     }
 
     private HttpResponse routeValidRequest(HttpRequest request) {
         if(routes.getPath(request.getPath())) {
             return routes.getAction(request.getPath(), request.getMethod())
-                    .orElse(methodNotAllowed).act();
+                    .orElse(methodNotAllowed).act(request.getBody());
         } else {
-            return notFound.act();
+            return notFound.act(request.getBody());
         }
     }
 }

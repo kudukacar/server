@@ -17,6 +17,6 @@ class RedirectTest {
                 .addHeader("Location: http://127.0.0.1:5000/simple_get")
                 .build();
 
-        assertThat(httpResponse, samePropertyValuesAs(action.act()));
+        assertThat(httpResponse, samePropertyValuesAs(action.act("")));
     }
 }

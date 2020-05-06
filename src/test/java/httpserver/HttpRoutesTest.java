@@ -73,7 +73,7 @@ class HttpRoutesTest {
 
     private static class SimpleGet implements Action {
         @Override
-        public HttpResponse act() {
+        public HttpResponse act(String body) {
             return null;
         }
     }

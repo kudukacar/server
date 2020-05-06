@@ -144,7 +144,7 @@ jobs:
             cat httpserver.yml > .elasticbeanstalk/config.yml
             eb deploy HttpServer-env
             cat echoserver.yml > .elasticbeanstalk/config.yml
-            eb deploy Server-env-1
+            eb deploy ServerEnv1-env
 
 workflows:
   version: 2
