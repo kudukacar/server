@@ -1,8 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.7.0)
-      public_suffix (>= 2.0.2, < 5.0)
+    addressable (2.8.1)
+      public_suffix (>= 2.0.2, < 6.0)
     colorize (0.8.1)
     content-type (0.0.1)
       parslet (~> 1.5)
@@ -30,7 +30,7 @@ GEM
     nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
     parslet (1.8.2)
-    public_suffix (4.0.3)
+    public_suffix (5.0.0)
     rack (2.0.5)
     rack-protection (2.0.4)
       rack
